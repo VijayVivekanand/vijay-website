@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROFILE_DATA, Publication } from "@/data/profile";
-import { sound } from "@/lib/sound";
 import {
   BookOpen,
   Copy,
@@ -11,6 +10,7 @@ import {
   FileCode,
   Calendar,
   ChevronDown,
+  ExternalLink,
 } from "lucide-react";
 
 interface PublicationsSectionProps {
@@ -27,10 +27,11 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({
   const allTags = [
     "ALL",
     "Event-Based Vision",
-    "SNN",
-    "VLSI Design",
     "Central Pattern Generator",
-    "Robot Navigation",
+    "VLSI Design",
+    "Dynamic Neural Fields (DNF)",
+    "Stereo Vision",
+    "Sensorimotor Control",
   ];
 
   const filteredPubs =
@@ -41,7 +42,6 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({
         );
 
   const handleCopyBibtex = (pub: Publication) => {
-    sound.playSteamClick();
     const bibtex = `@article{vivekanand${pub.date.replace(/[^0-9]/g, "")}_${pub.id},
   title = {${pub.title}},
   author = {${pub.authors}},
@@ -63,7 +63,6 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({
   };
 
   const toggleExpand = (id: string) => {
-    sound.playSteamClick();
     setExpandedId(expandedId === id ? null : id);
   };
 
@@ -93,7 +92,6 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({
             <button
               key={tag}
               onClick={() => {
-                sound.playSteamClick();
                 setSelectedTag(tag);
               }}
               className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all ${
@@ -221,15 +219,36 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({
                       </p>
                     </div>
 
-                    <div className="pt-2 flex items-center justify-between border-t border-[#1a2330] text-xs font-mono text-slate-400">
-                      <span>Status: Published</span>
-                      <button
-                        onClick={() => handleCopyBibtex(pub)}
-                        className="text-slate-300 hover:text-white flex items-center gap-1 font-mono text-xs"
-                      >
-                        <FileCode className="w-3.5 h-3.5" />
-                        Copy BibTeX
-                      </button>
+                    <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-[#1a2330] text-xs font-mono text-slate-400">
+                      <div className="flex items-center gap-2">
+                        <span>Status: Published</span>
+                        {pub.doi && (
+                          <span className="text-[11px] text-slate-400 font-mono">
+                            · DOI: <span className="text-slate-300">{pub.doi}</span>
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        {pub.link && (
+                          <a
+                            href={pub.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-steam-blue hover:text-white flex items-center gap-1 font-mono text-xs transition-colors"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            View Publication
+                          </a>
+                        )}
+                        <button
+                          onClick={() => handleCopyBibtex(pub)}
+                          className="text-slate-300 hover:text-white flex items-center gap-1 font-mono text-xs transition-colors"
+                        >
+                          <FileCode className="w-3.5 h-3.5" />
+                          Copy BibTeX
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 )}

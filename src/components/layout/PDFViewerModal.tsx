@@ -2,13 +2,13 @@
 
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { sound } from "@/lib/sound";
 import {
   FileText,
   Download,
   ExternalLink,
   X,
 } from "lucide-react";
+import { getAssetPath } from "@/lib/basePath";
 
 interface PDFViewerModalProps {
   isOpen: boolean;
@@ -21,14 +21,13 @@ interface PDFViewerModalProps {
 export const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
   isOpen,
   onClose,
-  pdfUrl = "/Vijay_Shankaran_Vivekanand_CV.pdf",
+  pdfUrl = getAssetPath("/Vijay_Shankaran_Vivekanand_CV.pdf"),
   title = "Vijay_Shankaran_Vivekanand_CV.pdf",
   onTriggerAchievement,
 }) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        sound.playSteamClick();
         onClose();
       }
     };
@@ -41,7 +40,6 @@ export const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
   if (!isOpen) return null;
 
   const handleDownload = () => {
-    sound.playSteamClick();
     if (onTriggerAchievement) {
       onTriggerAchievement(
         "cv_acquired",
@@ -82,7 +80,6 @@ export const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
               href={pdfUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => sound.playSteamClick()}
               title="Open in new window"
               className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg bg-white dark:bg-[#18212e] hover:bg-slate-100 dark:hover:bg-[#222e3f] text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-[#263548] text-xs font-mono flex items-center gap-1.5 transition-colors shadow-sm"
             >
@@ -103,10 +100,7 @@ export const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
 
             {/* Close Button */}
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                onClose();
-              }}
+              onClick={onClose}
               className="p-1.5 rounded-lg bg-white dark:bg-[#18212e] hover:bg-slate-100 dark:hover:bg-[#222e3f] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-[#263548] transition-colors ml-1 shadow-sm"
             >
               <X className="w-4 h-4" />

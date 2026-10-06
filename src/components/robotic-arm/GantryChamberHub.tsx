@@ -3,7 +3,6 @@
 import React, { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { PortalArm } from "./PortalArm";
-import { sound } from "@/lib/sound";
 import {
   Cpu,
   BookOpen,
@@ -109,8 +108,6 @@ export const GantryChamberHub: React.FC<GantryChamberHubProps> = ({
   }, []);
 
   const handleCardClick = (chamber: ChamberItem) => {
-    sound.playSteamClick();
-    sound.playClampClick();
     onOpenChamber(chamber.id);
   };
 

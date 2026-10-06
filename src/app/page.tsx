@@ -9,9 +9,9 @@ import { PDFViewerModal } from "@/components/layout/PDFViewerModal";
 import { ApertureTerminal } from "@/components/sections/ApertureTerminal";
 import { ContactModal } from "@/components/sections/ContactModal";
 import { SteamAchievementToast, Achievement } from "@/components/layout/SteamAchievementToast";
-import { sound } from "@/lib/sound";
 import { PROFILE_DATA } from "@/data/profile";
 import { Terminal, Mail, Linkedin, FileText, Bot, Sun, Moon } from "lucide-react";
+import { getAssetPath } from "@/lib/basePath";
 
 export default function Home() {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
@@ -61,14 +61,11 @@ export default function Home() {
     const nextMode = !isGeekMode;
     setIsGeekMode(nextMode);
     if (nextMode) {
-      sound.playAchievementSound();
       triggerAchievement(
         "geek_mode_unlocked",
         "GEEK MODE ENGAGED",
         "Aperture Science Testing Facility & Robotic Manipulator activated."
       );
-    } else {
-      sound.playSteamClick();
     }
   };
 
@@ -116,7 +113,7 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <div className="w-6 h-6 rounded-full overflow-hidden border border-slate-300 dark:border-[#26374a] shadow-sm flex-shrink-0 bg-slate-100 dark:bg-[#16212e]">
               <img
-                src="/headshot.jpg"
+                src={getAssetPath("/headshot.jpg")}
                 alt="Vijay Shankaran Vivekanand"
                 className="w-full h-full object-cover object-top"
               />
@@ -128,10 +125,7 @@ export default function Home() {
 
           <div className="flex items-center gap-5">
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                handleToggleTheme();
-              }}
+              onClick={handleToggleTheme}
               className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
             >
               {theme === "dark" ? (
@@ -148,10 +142,7 @@ export default function Home() {
             </button>
 
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                setIsPDFViewerOpen(true);
-              }}
+              onClick={() => setIsPDFViewerOpen(true)}
               className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
             >
               <FileText className="w-3.5 h-3.5 text-slate-400" />
@@ -167,10 +158,7 @@ export default function Home() {
             </button>
 
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                setIsTerminalOpen(true);
-              }}
+              onClick={() => setIsTerminalOpen(true)}
               className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
             >
               <Terminal className="w-3.5 h-3.5 text-slate-400" />
@@ -178,10 +166,7 @@ export default function Home() {
             </button>
 
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                setIsContactOpen(true);
-              }}
+              onClick={() => setIsContactOpen(true)}
               className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
             >
               <Mail className="w-3.5 h-3.5 text-slate-400" />
@@ -218,7 +203,7 @@ export default function Home() {
       <PDFViewerModal
         isOpen={isPDFViewerOpen}
         onClose={() => setIsPDFViewerOpen(false)}
-        pdfUrl="/Vijay_Shankaran_Vivekanand_CV.pdf"
+        pdfUrl={getAssetPath("/Vijay_Shankaran_Vivekanand_CV.pdf")}
         title="Vijay_Shankaran_Vivekanand_CV.pdf"
         onTriggerAchievement={triggerAchievement}
       />

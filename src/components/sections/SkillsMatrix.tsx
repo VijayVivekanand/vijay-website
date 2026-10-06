@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { PROFILE_DATA } from "@/data/profile";
-import { sound } from "@/lib/sound";
 import {
   Zap,
   Cpu,
@@ -63,7 +62,6 @@ export const SkillsMatrix: React.FC = () => {
             <button
               key={c.id}
               onClick={() => {
-                sound.playSteamClick();
                 setSelectedCategory(c.id);
               }}
               className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${

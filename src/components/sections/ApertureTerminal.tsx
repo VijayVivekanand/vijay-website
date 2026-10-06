@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { sound } from "@/lib/sound";
 import { PROFILE_DATA } from "@/data/profile";
 import { Terminal, X, Maximize2, Minimize2, CornerDownLeft } from "lucide-react";
 
@@ -57,7 +56,6 @@ export const ApertureTerminal: React.FC<ApertureTerminalProps> = ({
     const cmd = inputVal.trim().toLowerCase();
     if (!cmd) return;
 
-    sound.playSteamClick();
     let output: React.ReactNode = null;
 
     switch (cmd) {
@@ -164,7 +162,6 @@ export const ApertureTerminal: React.FC<ApertureTerminalProps> = ({
 
       case "sudo hire":
       case "hire":
-        sound.playAchievementSound();
         if (onTriggerAchievement) {
           onTriggerAchievement(
             "sudo_hire",
@@ -183,7 +180,6 @@ export const ApertureTerminal: React.FC<ApertureTerminalProps> = ({
         break;
 
       case "portal":
-        sound.playPortalWhoosh();
         output = (
           <div className="text-aperture-blue font-bold">
             🌀 PORTAL DISPERSION FIELD ACTIVATED! Acoustic resonance calibrated.
@@ -247,10 +243,7 @@ export const ApertureTerminal: React.FC<ApertureTerminalProps> = ({
               {isMaximized ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
             </button>
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                onClose();
-              }}
+              onClick={onClose}
               className="text-slate-400 hover:text-rose-400 p-1 rounded"
             >
               <X className="w-4 h-4" />

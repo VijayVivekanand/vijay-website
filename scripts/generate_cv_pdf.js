@@ -334,33 +334,33 @@ async function generateCV() {
   const pubs = [
     {
       num: "1.",
-      authors: "V. S. Vivekanand, S. Hashemkhani, S. Chopra, R. Kubendran. ",
-      title: '“Towards Autonomous Event-based Sensorimotor Control with Self-Supervised Gait Learning and Obstacle Avoidance for Robot Navigation.” ',
-      venue: "Frontiers in Neuroscience, Feb 2025.",
+      authors: "S. Hashemkhani, V. S. Vivekanand, S. Chopra, R. Kubendran. ",
+      title: '“Toward autonomous event-based sensorimotor control with supervised gait learning and obstacle avoidance for robot navigation.” ',
+      venue: "Frontiers in Neuroscience, 19:1492436, Feb 2025.",
     },
     {
       num: "2.",
-      authors: "Y. Li, V. S. Vivekanand, R. Kubendran, I. Lee. ",
+      authors: "Y. Li, V. Shankaran Vivekanand, R. Kubendran, I. Lee. ",
       title: '“Dynamic Neural Fields Accelerator Design for a Millimeter-Scale Tracking System.” ',
-      venue: "IEEE Transactions on Very Large Scale Integration (VLSI) Systems, Oct 2024.",
+      venue: "IEEE Transactions on VLSI Systems, 32(10):1940-1944, Oct 2024.",
     },
     {
       num: "3.",
-      authors: "V. S. Vivekanand, S. Chopra, S. Hashemkhani, R. Kubendran. ",
-      title: '“Quadruped Control through Tunable Bursting Rhythms.” ',
-      venue: "ACM International Conference on Neuromorphic Systems (ICONS), Aug 2023.",
+      authors: "V. S. Vivekanand, S. Chopra, S. Hashemkhani, R. C. Kubendran. ",
+      title: '“Robot Locomotion through Tunable Bursting Rhythms using Efficient Bio-mimetic Neural Networks on Loihi and Arduino Platforms.” ',
+      venue: "ACM ICONS, Art. 5, pp. 1–7, Aug 2023.",
     },
     {
       num: "4.",
-      authors: "V. S. Vivekanand, S. Hashemkhani, S. Venkatachalam, R. Kubendran. ",
-      title: '“Robot Locomotion Using Spiking Central Pattern Generator.” ',
-      venue: "IEEE International Conference on Autonomous Robot Systems and Competitions (ICARA), Feb 2023.",
+      authors: "S. Venkatachalam, V. S. Vivekanand, R. Kubendran. ",
+      title: '“Frame of Events: A Low-latency Resource-efficient Approach for Stereo Depth Maps.” ',
+      venue: "IEEE ICARA, pp. 324-328, Feb 2023.",
     },
     {
       num: "5.",
-      authors: "S. Venkatachalam, V. S. Vivekanand, R. Kubendran. ",
-      title: '“Frame of Events based Stereo Depth Maps.” ',
-      venue: "IEEE International Conference on Autonomous Robot Systems and Competitions (ICARA), Feb 2023.",
+      authors: "V. S. Vivekanand, S. Hashemkhani, S. Venkatachalam, R. Kubendran. ",
+      title: '“Robot Locomotion Control Using Central Pattern Generator with Non-linear Bio-mimetic Neurons.” ',
+      venue: "IEEE ICARA, pp. 102-106, Feb 2023.",
     },
   ];
 

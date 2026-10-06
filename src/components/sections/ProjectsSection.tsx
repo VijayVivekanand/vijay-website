@@ -7,13 +7,22 @@ import {
   Cpu,
   Lock,
   Compass,
+  Zap,
+  Activity,
+  ExternalLink,
 } from "lucide-react";
 
 export const ProjectsSection: React.FC = () => {
   const getProjectIcon = (id: string) => {
     switch (id) {
+      case "autonomous_sensorimotor_cpg":
+        return Activity;
+      case "dnf_accelerator_vlsi":
       case "silicon_cochlea":
         return Cpu;
+      case "bursting_cpg_loihi":
+      case "frame_of_events_stereo":
+        return Zap;
       case "chaos_cryptography":
         return Lock;
       case "lqr_inverted_pendulum":
@@ -96,9 +105,9 @@ export const ProjectsSection: React.FC = () => {
                 )}
               </div>
 
-              {/* Tags Chips */}
-              {proj.tags && (
-                <div className="pt-3 border-t border-[#1a2533]">
+              {/* Tags & Action Link */}
+              <div className="pt-3 border-t border-[#1a2533] space-y-2">
+                {proj.tags && (
                   <div className="flex flex-wrap gap-1">
                     {proj.tags.map((tag) => (
                       <span
@@ -109,8 +118,22 @@ export const ProjectsSection: React.FC = () => {
                       </span>
                     ))}
                   </div>
-                </div>
-              )}
+                )}
+
+                {proj.link && (
+                  <div className="pt-1 flex justify-end">
+                    <a
+                      href={proj.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-mono text-steam-blue hover:text-white flex items-center gap-1 transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      View Paper / DOI
+                    </a>
+                  </div>
+                )}
+              </div>
             </div>
           );
         })}

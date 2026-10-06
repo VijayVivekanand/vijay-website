@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { sound } from "@/lib/sound";
 import { Trophy, X } from "lucide-react";
 
 export interface Achievement {
@@ -23,7 +22,6 @@ export const SteamAchievementToast: React.FC<SteamAchievementToastProps> = ({
 }) => {
   useEffect(() => {
     if (achievement) {
-      sound.playAchievementSound();
       const timer = setTimeout(() => {
         onClose();
       }, 5000);
@@ -62,10 +60,7 @@ export const SteamAchievementToast: React.FC<SteamAchievementToastProps> = ({
             </div>
 
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                onClose();
-              }}
+              onClick={onClose}
               className="text-slate-400 hover:text-white p-1 rounded"
             >
               <X className="w-3.5 h-3.5" />

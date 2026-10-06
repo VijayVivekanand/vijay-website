@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
-import { sound } from "@/lib/sound";
 
 interface PortalArmProps {
   cursorPos?: { x: number; y: number } | null;
@@ -121,7 +120,6 @@ export const PortalArm: React.FC<PortalArmProps> = ({
   // Clamp articulation on target change
   useEffect(() => {
     if (targetedChamberId && clawLeftRef.current && clawRightRef.current) {
-      sound.playPneumaticHiss();
       gsap.timeline()
         .to([clawLeftRef.current, clawRightRef.current], {
           rotation: (i) => (i === 0 ? -18 : 18),

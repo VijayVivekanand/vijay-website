@@ -2,7 +2,6 @@
 
 import React from "react";
 import { GantryChamberHub } from "@/components/robotic-arm/GantryChamberHub";
-import { sound } from "@/lib/sound";
 import { Bot, ArrowLeft, Terminal, AlertTriangle } from "lucide-react";
 
 interface GeekModeViewProps {
@@ -43,7 +42,6 @@ export const GeekModeView: React.FC<GeekModeViewProps> = ({
           <div className="flex items-center gap-2.5 self-end sm:self-auto">
             <button
               onClick={() => {
-                sound.playSteamClick();
                 onOpenTerminal();
               }}
               className="px-3 py-1.5 rounded-xl bg-[#16212e] hover:bg-[#1f2d3d] text-slate-300 hover:text-white font-mono text-xs border border-[#26374a] transition-all flex items-center gap-1.5"
@@ -54,7 +52,6 @@ export const GeekModeView: React.FC<GeekModeViewProps> = ({
 
             <button
               onClick={() => {
-                sound.playSteamClick();
                 onExitGeekMode();
               }}
               className="px-3.5 py-1.5 rounded-xl bg-[#223348] hover:bg-[#2d425c] text-white font-semibold text-xs border border-[#3a5375] shadow-sm transition-all flex items-center gap-1.5"

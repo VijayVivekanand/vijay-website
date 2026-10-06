@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { PROFILE_DATA } from "@/data/profile";
-import { sound } from "@/lib/sound";
 import {
   Cpu,
   GraduationCap,
@@ -13,6 +12,7 @@ import {
   Terminal,
   CheckCircle2,
 } from "lucide-react";
+import { getAssetPath } from "@/lib/basePath";
 
 interface HeroChamberProps {
   onNavigateTab: (index: number) => void;
@@ -62,7 +62,6 @@ export const HeroChamber: React.FC<HeroChamberProps> = ({
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button
               onClick={() => {
-                sound.playSteamClick();
                 onNavigateTab(1);
               }}
               className="px-4 py-2 rounded-xl bg-[#202d3e] hover:bg-[#2b3c52] text-slate-100 font-semibold text-xs border border-[#33465e] transition-all flex items-center gap-2"
@@ -74,11 +73,10 @@ export const HeroChamber: React.FC<HeroChamberProps> = ({
             {/* View / Preview CV */}
             <button
               onClick={() => {
-                sound.playSteamClick();
                 if (onOpenPreviewCV) {
                   onOpenPreviewCV();
                 } else {
-                  window.open("/Vijay_Shankaran_Vivekanand_CV.pdf", "_blank");
+                  window.open(getAssetPath("/Vijay_Shankaran_Vivekanand_CV.pdf"), "_blank");
                 }
               }}
               className="px-4 py-2 rounded-xl bg-[#223348] hover:bg-[#2e4460] text-slate-100 font-semibold text-xs border border-[#3d5779] shadow-sm transition-all flex items-center gap-2"
@@ -89,12 +87,11 @@ export const HeroChamber: React.FC<HeroChamberProps> = ({
 
             {/* Direct Download CV */}
             <a
-              href="/Vijay_Shankaran_Vivekanand_CV.pdf"
+              href={getAssetPath("/Vijay_Shankaran_Vivekanand_CV.pdf")}
               download="Vijay_Shankaran_Vivekanand_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {
-                sound.playSteamClick();
                 onTriggerAchievement(
                   "cv_acquired",
                   "Curriculum Vitae Retrieved",
@@ -111,7 +108,6 @@ export const HeroChamber: React.FC<HeroChamberProps> = ({
               href={PROFILE_DATA.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => sound.playSteamClick()}
               className="px-4 py-2 rounded-xl bg-[#17212e] hover:bg-[#202d3e] text-slate-300 hover:text-white font-medium text-xs border border-[#27374b] transition-all flex items-center gap-2"
             >
               <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
@@ -120,7 +116,6 @@ export const HeroChamber: React.FC<HeroChamberProps> = ({
 
             <button
               onClick={() => {
-                sound.playSteamClick();
                 onOpenTerminal();
               }}
               className="px-3.5 py-2 rounded-xl bg-[#121822] hover:bg-[#1a2330] text-slate-400 hover:text-slate-200 font-mono text-xs border border-[#223042] transition-all flex items-center gap-1.5"

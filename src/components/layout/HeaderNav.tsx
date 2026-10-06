@@ -1,10 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { sound } from "@/lib/sound";
+import React from "react";
 import {
-  Volume2,
-  VolumeX,
   Mail,
   Terminal,
   Activity,
@@ -20,17 +17,6 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   onOpenTerminal,
   onOpenContact,
 }) => {
-  const [isMuted, setIsMuted] = useState(false);
-
-  useEffect(() => {
-    setIsMuted(sound.getMuted());
-  }, []);
-
-  const handleToggleSound = () => {
-    const muted = sound.toggleMute();
-    setIsMuted(muted);
-  };
-
   return (
     <header className="sticky top-0 z-40 w-full bg-[#0d131a]/95 backdrop-blur-md border-b border-[#1b2634] shadow-sm select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
@@ -49,7 +35,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           </div>
         </div>
 
-        {/* Right: User status badge, Terminal, SFX toggle, and Transmit button */}
+        {/* Right: User status badge, Terminal, and Transmit button */}
         <div className="flex items-center gap-2.5 sm:gap-3">
           {/* Status Indicator */}
           <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-lg bg-[#131a24] border border-[#1f2c3d] text-[11px] font-mono text-slate-300">
@@ -60,10 +46,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           {/* Terminal Launcher */}
           {onOpenTerminal && (
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                onOpenTerminal();
-              }}
+              onClick={onOpenTerminal}
               title="Open CLI Terminal"
               className="px-2.5 py-1.5 rounded-lg bg-[#141b24] hover:bg-[#1b2533] text-slate-300 hover:text-white border border-[#243346] transition-colors flex items-center gap-1.5 text-xs font-mono"
             >
@@ -72,27 +55,10 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             </button>
           )}
 
-          {/* Sound Mute/Unmute Toggle */}
-          <button
-            onClick={handleToggleSound}
-            title={isMuted ? "Enable Sound Effects" : "Mute Sound Effects"}
-            className={`px-2.5 py-1.5 rounded-lg border transition-colors flex items-center gap-1.5 text-xs font-mono ${
-              isMuted
-                ? "bg-[#111720] border-[#1f2b3a] text-slate-500"
-                : "bg-[#141b24] border-[#243346] text-slate-300 hover:text-white hover:bg-[#1b2533]"
-            }`}
-          >
-            {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-            <span className="hidden sm:inline">{isMuted ? "MUTED" : "SFX"}</span>
-          </button>
-
           {/* Contact / Transmit Button */}
           {onOpenContact && (
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                onOpenContact();
-              }}
+              onClick={onOpenContact}
               className="px-3.5 py-1.5 rounded-lg bg-[#202c3c] hover:bg-[#2b3a4e] text-slate-100 hover:text-white font-semibold text-xs transition-all flex items-center gap-1.5 border border-[#33465e] font-sans"
             >
               <Mail className="w-3.5 h-3.5 text-slate-300" />

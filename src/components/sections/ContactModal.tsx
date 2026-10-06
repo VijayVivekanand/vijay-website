@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { sound } from "@/lib/sound";
 import { PROFILE_DATA } from "@/data/profile";
 import {
   Mail,
@@ -35,14 +34,12 @@ export const ContactModal: React.FC<ContactModalProps> = ({
   if (!isOpen) return null;
 
   const handleCopyEmail = () => {
-    sound.playSteamClick();
     navigator.clipboard.writeText(PROFILE_DATA.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
   const handleCopyPhone = () => {
-    sound.playSteamClick();
     navigator.clipboard.writeText(PROFILE_DATA.phone);
     setCopiedPhone(true);
     setTimeout(() => setCopiedPhone(false), 2000);
@@ -50,7 +47,6 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    sound.playSteamClick();
     const mailto = `mailto:${PROFILE_DATA.email}?subject=Collaboration / Opportunity from ${encodeURIComponent(
       senderName || "Recruiter/Colleague"
     )}&body=${encodeURIComponent(message)}`;
@@ -78,10 +74,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             </span>
           </div>
           <button
-            onClick={() => {
-              sound.playSteamClick();
-              onClose();
-            }}
+            onClick={onClose}
             className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-1 rounded"
           >
             <X className="w-4 h-4" />
@@ -136,7 +129,6 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 href={PROFILE_DATA.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => sound.playSteamClick()}
                 className="p-3 rounded-xl bg-slate-50 dark:bg-[#182330] border border-slate-200 dark:border-[#2b3c50] hover:border-slate-300 dark:hover:border-[#4d6b91] flex items-center justify-between transition-colors shadow-sm"
               >
                 <div className="flex items-center gap-3">

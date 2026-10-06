@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { sound } from "@/lib/sound";
 import { HeroChamber } from "./HeroChamber";
 import { PublicationsSection } from "./PublicationsSection";
 import { ExperienceSection } from "./ExperienceSection";
@@ -31,7 +30,6 @@ export const ChamberDetailModal: React.FC<ChamberDetailModalProps> = ({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        sound.playSteamClick();
         onClose();
       }
     };
@@ -118,10 +116,7 @@ export const ChamberDetailModal: React.FC<ChamberDetailModalProps> = ({
               PRESS <kbd className="px-1.5 py-0.5 rounded bg-[#1a2330] border border-[#263548] text-slate-300 font-bold">ESC</kbd> TO CLOSE
             </span>
             <button
-              onClick={() => {
-                sound.playSteamClick();
-                onClose();
-              }}
+              onClick={onClose}
               className="p-1.5 rounded-lg bg-[#18212e] hover:bg-[#222e3f] text-slate-400 hover:text-white border border-[#263548] transition-colors"
             >
               <X className="w-4 h-4" />

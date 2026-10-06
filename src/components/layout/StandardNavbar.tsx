@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { sound } from "@/lib/sound";
 import {
   Sparkles,
   FileText,
@@ -12,6 +11,7 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
+import { getAssetPath } from "@/lib/basePath";
 
 interface StandardNavbarProps {
   isGeekMode: boolean;
@@ -52,7 +52,6 @@ export const StandardNavbar: React.FC<StandardNavbarProps> = ({
   ];
 
   const handleNavClick = (href: string) => {
-    sound.playSteamClick();
     setIsMobileMenuOpen(false);
     const element = document.querySelector(href);
     if (element) {
@@ -74,14 +73,13 @@ export const StandardNavbar: React.FC<StandardNavbarProps> = ({
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            sound.playSteamClick();
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           className="flex items-center gap-2.5 group select-none"
         >
           <div className="w-8 h-8 rounded-full overflow-hidden border border-slate-300 dark:border-[#2d4057] shadow-sm group-hover:border-slate-500 dark:group-hover:border-[#4d6b91] transition-all flex-shrink-0 bg-slate-100 dark:bg-[#151f2b]">
             <img
-              src="/headshot.jpg"
+              src={getAssetPath("/headshot.jpg")}
               alt="Vijay Shankaran"
               className="w-full h-full object-cover object-top"
             />
@@ -117,10 +115,7 @@ export const StandardNavbar: React.FC<StandardNavbarProps> = ({
         <div className="hidden sm:flex items-center gap-2.5">
           {/* Light / Dark Mode Toggle Button */}
           <button
-            onClick={() => {
-              sound.playSteamClick();
-              onToggleTheme();
-            }}
+            onClick={onToggleTheme}
             className="p-2 rounded-lg bg-slate-100 dark:bg-[#131b26] hover:bg-slate-200 dark:hover:bg-[#1a2535] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#223143] text-xs font-medium flex items-center justify-center transition-all shadow-sm"
             title={`Switch to ${theme === "dark" ? "Light" : "Dark"} Mode`}
           >
@@ -133,10 +128,7 @@ export const StandardNavbar: React.FC<StandardNavbarProps> = ({
 
           {/* Preview CV */}
           <button
-            onClick={() => {
-              sound.playSteamClick();
-              onOpenPreviewCV();
-            }}
+            onClick={onOpenPreviewCV}
             className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-[#131b26] hover:bg-slate-200 dark:hover:bg-[#1a2535] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#223143] text-xs font-medium flex items-center gap-1.5 transition-all shadow-sm"
           >
             <FileText className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
@@ -145,10 +137,7 @@ export const StandardNavbar: React.FC<StandardNavbarProps> = ({
 
           {/* Contact */}
           <button
-            onClick={() => {
-              sound.playSteamClick();
-              onOpenContact();
-            }}
+            onClick={onOpenContact}
             className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-[#131b26] hover:bg-slate-200 dark:hover:bg-[#1a2535] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-[#223143] text-xs font-medium flex items-center gap-1.5 transition-all shadow-sm"
           >
             <Mail className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
@@ -157,10 +146,7 @@ export const StandardNavbar: React.FC<StandardNavbarProps> = ({
 
           {/* Geek Mode Switcher */}
           <button
-            onClick={() => {
-              sound.playSteamClick();
-              onToggleGeekMode();
-            }}
+            onClick={onToggleGeekMode}
             className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold flex items-center gap-2 border transition-all shadow-sm ${
               isGeekMode
                 ? "bg-[#253952] text-white border-[#486b96] shadow-[0_0_15px_rgba(82,148,226,0.25)] ring-1 ring-[#5294e2]/50"
@@ -175,10 +161,7 @@ export const StandardNavbar: React.FC<StandardNavbarProps> = ({
         {/* Mobile Buttons */}
         <div className="flex sm:hidden items-center gap-2">
           <button
-            onClick={() => {
-              sound.playSteamClick();
-              onToggleTheme();
-            }}
+            onClick={onToggleTheme}
             className="p-2 rounded-lg bg-slate-100 dark:bg-[#131b26] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-[#223143]"
             title="Toggle theme"
           >
@@ -186,10 +169,7 @@ export const StandardNavbar: React.FC<StandardNavbarProps> = ({
           </button>
 
           <button
-            onClick={() => {
-              sound.playSteamClick();
-              onToggleGeekMode();
-            }}
+            onClick={onToggleGeekMode}
             className="p-2 rounded-lg bg-slate-100 dark:bg-[#16202c] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-[#27384e]"
             title="Toggle Geek Mode"
           >

@@ -21,8 +21,7 @@ Built with **Next.js**, **Tailwind CSS**, **Framer Motion**, and **GSAP**, theme
    - **Chamber 05: Inventory Matrix** — Steam-styled inventory specification matrix for ML, Robotics, Neuromorphic hardware (Intel Loihi), and toolchains.
    - **Chamber 06: Commendations** — Steam Trophy cabinet highlighting TechCrunch Disrupt 2025 Finalist, Employee of the Year, and national awards.
 
-3. **Steam UI & Audio Synthesis**:
-   - Synthesized Web Audio API sound engine (pneumatics, servo motors, Steam UI clicks, chamber chimes, achievement fanfare) with mute toggle.
+3. **Steam UI & Interactions**:
    - Steam Achievement unlock toast notifications.
    - Interactive GLaDOS / Aperture CLI terminal with custom diagnostic commands (`help`, `papers`, `exp`, `skills`, `sudo hire`, `portal`).
    - Steam Chat contact dispatch console.

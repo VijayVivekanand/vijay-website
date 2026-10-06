@@ -2,7 +2,6 @@
 
 import React from "react";
 import { PROFILE_DATA } from "@/data/profile";
-import { sound } from "@/lib/sound";
 import {
   Award,
   Trophy,
@@ -19,7 +18,6 @@ export const AwardsSection: React.FC<AwardsSectionProps> = ({
   onTriggerAchievement,
 }) => {
   const triggerConfetti = (awardTitle: string) => {
-    sound.playAchievementSound();
     confetti({
       particleCount: 50,
       spread: 60,

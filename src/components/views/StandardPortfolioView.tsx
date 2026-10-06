@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROFILE_DATA, Publication, Experience, Project, Award } from "@/data/profile";
-import { sound } from "@/lib/sound";
+import { getAssetPath } from "@/lib/basePath";
 import {
   FileText,
   Download,
@@ -43,6 +43,8 @@ import {
   Lightbulb,
   Sparkles,
   MapPin,
+  Activity,
+  FileCode,
   Quote,
   Video,
   Palette,
@@ -75,10 +77,11 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
   const allTags = [
     "ALL",
     "Event-Based Vision",
-    "SNN",
-    "VLSI Design",
     "Central Pattern Generator",
-    "Robot Navigation",
+    "VLSI Design",
+    "Dynamic Neural Fields (DNF)",
+    "Stereo Vision",
+    "Sensorimotor Control",
   ];
 
   const filteredPubs =
@@ -89,7 +92,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
         );
 
   const handleCopyBibtex = (pub: Publication) => {
-    sound.playSteamClick();
     const bibtex = `@article{vivekanand${pub.date.replace(/[^0-9]/g, "")}_${pub.id},
   title = {${pub.title}},
   author = {${pub.authors}},
@@ -104,8 +106,14 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
 
   const getProjectIcon = (id: string) => {
     switch (id) {
+      case "autonomous_sensorimotor_cpg":
+        return Activity;
+      case "dnf_accelerator_vlsi":
       case "silicon_cochlea":
         return Cpu;
+      case "bursting_cpg_loihi":
+      case "frame_of_events_stereo":
+        return Zap;
       case "chaos_cryptography":
         return Lock;
       case "lqr_inverted_pendulum":
@@ -174,7 +182,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
       : PROFILE_DATA.skills.filter((s) => s.category === selectedSkillCategory);
 
   const triggerConfetti = (title: string) => {
-    sound.playAchievementSound();
     confetti({
       particleCount: 40,
       spread: 55,
@@ -197,7 +204,7 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
             <div className="relative flex-shrink-0 group">
               <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border-2 border-slate-300 dark:border-[#26374a] shadow-xl dark:shadow-[0_0_30px_rgba(38,55,74,0.4)] bg-slate-100 dark:bg-[#121922]">
                 <img
-                  src="/headshot.jpg"
+                  src={getAssetPath("/headshot.jpg")}
                   alt="Vijay Shankaran Vivekanand"
                   className="w-full h-full object-cover object-top scale-100 group-hover:scale-105 transition-transform duration-500 ease-out"
                 />
@@ -224,7 +231,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
               <div className="flex flex-wrap items-center gap-2.5 pt-1">
                 <button
                   onClick={() => {
-                    sound.playSteamClick();
                     onOpenPreviewCV();
                   }}
                   className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-black text-white font-semibold text-xs sm:text-sm shadow-md transition-all flex items-center gap-2 dark:bg-[#223348] dark:hover:bg-[#2e4460] dark:border dark:border-[#3d5779]"
@@ -234,11 +240,10 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                 </button>
 
                 <a
-                  href="/Vijay_Shankaran_Vivekanand_CV.pdf"
+                  href={getAssetPath("/Vijay_Shankaran_Vivekanand_CV.pdf")}
                   download="Vijay_Shankaran_Vivekanand_CV.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => sound.playSteamClick()}
                   className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm border border-slate-300 transition-all flex items-center gap-2 shadow-sm dark:bg-[#141d2a] dark:hover:bg-[#1c2838] dark:text-slate-200 dark:border-[#243447]"
                 >
                   <Download className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
@@ -247,7 +252,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
 
                 <button
                   onClick={() => {
-                    sound.playSteamClick();
                     onOpenContact();
                   }}
                   className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm border border-slate-300 transition-all flex items-center gap-2 shadow-sm dark:bg-[#141d2a] dark:hover:bg-[#1c2838] dark:text-slate-200 dark:border-[#243447]"
@@ -260,7 +264,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                   href={PROFILE_DATA.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => sound.playSteamClick()}
                   className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-black font-semibold text-xs sm:text-sm border border-slate-300 transition-all flex items-center gap-2 shadow-sm dark:bg-[#141d2a] dark:hover:bg-[#1c2838] dark:text-slate-300 dark:hover:text-white dark:border-[#243447]"
                 >
                   <Linkedin className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
@@ -270,7 +273,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                 {/* Geek Mode Switch CTA */}
                 <button
                   onClick={() => {
-                    sound.playSteamClick();
                     onToggleGeekMode();
                   }}
                   className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-black font-mono font-medium text-xs sm:text-sm border border-slate-300 transition-all flex items-center gap-2 ml-auto shadow-sm dark:bg-[#182333] dark:hover:bg-[#223247] dark:text-slate-300 dark:hover:text-white dark:border-[#2c3f56]"
@@ -400,7 +402,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
               <button
                 key={tag}
                 onClick={() => {
-                  sound.playSteamClick();
                   setSelectedTag(tag);
                 }}
                 className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${
@@ -431,7 +432,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
               >
                 <div
                   onClick={() => {
-                    sound.playSteamClick();
                     setExpandedPubId(isExpanded ? null : pub.id);
                   }}
                   className="p-5 cursor-pointer flex flex-col md:flex-row md:items-start justify-between gap-4 select-none"
@@ -525,6 +525,41 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                           {pub.abstract}
                         </p>
                       </div>
+
+                      <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 dark:border-[#1a2330] text-xs font-mono text-slate-600 dark:text-slate-400">
+                        <div className="flex items-center gap-2">
+                          <span>Status: Published</span>
+                          {pub.doi && (
+                            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                              · DOI: <span className="text-slate-800 dark:text-slate-300 font-medium">{pub.doi}</span>
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          {pub.link && (
+                            <a
+                              href={pub.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 dark:text-steam-blue hover:underline flex items-center gap-1 font-mono text-xs transition-colors font-medium"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              View Publication
+                            </a>
+                          )}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCopyBibtex(pub);
+                            }}
+                            className="text-slate-700 dark:text-slate-300 hover:text-black dark:hover:text-white flex items-center gap-1 font-mono text-xs transition-colors"
+                          >
+                            <FileCode className="w-3.5 h-3.5" />
+                            Copy BibTeX
+                          </button>
+                        </div>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -557,7 +592,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                 <button
                   key={exp.id}
                   onClick={() => {
-                    sound.playSteamClick();
                     setSelectedExpId(exp.id);
                   }}
                   className={`w-full text-left p-4 rounded-2xl border transition-all duration-200 select-none ${
@@ -707,8 +741,8 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                   )}
                 </div>
 
-                {proj.tags && (
-                  <div className="pt-3 border-t border-slate-200 dark:border-[#1a2636]">
+                <div className="pt-3 border-t border-slate-200 dark:border-[#1a2636] space-y-2">
+                  {proj.tags && (
                     <div className="flex flex-wrap gap-1">
                       {proj.tags.map((tag) => (
                         <span
@@ -719,8 +753,22 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                         </span>
                       ))}
                     </div>
-                  </div>
-                )}
+                  )}
+
+                  {proj.link && (
+                    <div className="pt-1 flex justify-end">
+                      <a
+                        href={proj.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-mono text-blue-600 dark:text-steam-blue hover:underline flex items-center gap-1 font-medium transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        View Paper / DOI
+                      </a>
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
@@ -747,7 +795,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
               <button
                 key={c.id}
                 onClick={() => {
-                  sound.playSteamClick();
                   setSelectedSkillCategory(c.id);
                 }}
                 className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${
@@ -881,9 +928,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
           {PROFILE_DATA.personality.quickBites.map((bite) => (
             <div
               key={bite.label}
-              onClick={() => {
-                sound.playSteamClick();
-              }}
               className="p-3.5 rounded-2xl bg-white dark:bg-[#0f151f] border border-slate-200 dark:border-[#1c2738] hover:border-slate-300 dark:hover:border-[#2a3c50] transition-all duration-200 space-y-2 shadow-sm group hover:-translate-y-0.5 cursor-default select-none"
             >
               <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-[#16212e] border border-slate-200 dark:border-[#243446] flex items-center justify-center text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -935,7 +979,7 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                 {interest.image && (
                   <div className="relative rounded-xl overflow-hidden border border-slate-200 dark:border-[#243446] bg-slate-950 mt-2 shadow-sm group-hover:border-blue-500/40 transition-colors">
                     <img
-                      src={interest.image}
+                      src={getAssetPath(interest.image)}
                       alt={interest.title}
                       className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-300"
                     />
@@ -967,7 +1011,7 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
             <div className="p-4 rounded-2xl bg-white dark:bg-[#0f151f] border border-slate-200 dark:border-[#1c2738] hover:border-slate-300 dark:hover:border-[#2b3e54] transition-all duration-200 shadow-sm group flex flex-col justify-between overflow-hidden">
               <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 dark:bg-[#16212e] border border-slate-200 dark:border-[#243446]">
                 <img
-                  src={PROFILE_DATA.personality.image}
+                  src={getAssetPath(PROFILE_DATA.personality.image)}
                   alt="Vijay Vivekanand - Casual Vibe"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
@@ -1039,7 +1083,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
               onClick={() => {
-                sound.playSteamClick();
                 onOpenContact();
               }}
               className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-black text-white font-semibold text-sm shadow-md transition-all flex items-center gap-2 dark:bg-[#223348] dark:hover:bg-[#2d435e] dark:border dark:border-[#3b5476]"
@@ -1058,7 +1101,6 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
 
             <button
               onClick={() => {
-                sound.playSteamClick();
                 onOpenPreviewCV();
               }}
               className="px-5 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-semibold text-sm border border-slate-300 transition-all flex items-center gap-2 shadow-sm dark:bg-[#141c26] dark:hover:bg-[#1a2431] dark:text-slate-200 dark:border-[#243345]"

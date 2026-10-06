@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { PROFILE_DATA } from "@/data/profile";
-import { sound } from "@/lib/sound";
 import {
   Briefcase,
   Building,
@@ -15,7 +14,6 @@ export const ExperienceSection: React.FC = () => {
   const activeExp = PROFILE_DATA.experience.find((e) => e.id === selectedExpId) || PROFILE_DATA.experience[0];
 
   const handleSelectExp = (id: string) => {
-    sound.playSteamClick();
     setSelectedExpId(id);
   };
 
