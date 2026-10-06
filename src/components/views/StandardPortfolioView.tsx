@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROFILE_DATA, Publication, Experience, Project, Award } from "@/data/profile";
 import { getAssetPath } from "@/lib/basePath";
@@ -21,6 +21,8 @@ import {
   Zap,
   CheckCircle2,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Copy,
   Check,
   Cpu,
@@ -48,6 +50,11 @@ import {
   Quote,
   Video,
   Palette,
+  Play,
+  Pause,
+  Camera,
+  Image as ImageIcon,
+  X,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -71,6 +78,32 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
   const [selectedExpId, setSelectedExpId] = useState<string>(PROFILE_DATA.experience[0].id);
   const activeExp = PROFILE_DATA.experience.find((e) => e.id === selectedExpId) || PROFILE_DATA.experience[0];
 
+  // Figure Modal state
+  const [selectedFigure, setSelectedFigure] = useState<{ title: string; caption: string; image: string } | null>(null);
+
+  // Photo Dump Slideshow state
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [isSlideshowPlaying, setIsSlideshowPlaying] = useState(true);
+  const photoDump = PROFILE_DATA.personality.photoDump || [];
+
+  useEffect(() => {
+    if (!isSlideshowPlaying || photoDump.length === 0) return;
+    const timer = setInterval(() => {
+      setCurrentPhotoIndex((prev) => (prev + 1) % photoDump.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [isSlideshowPlaying, photoDump.length]);
+
+  const nextPhoto = () => {
+    if (photoDump.length === 0) return;
+    setCurrentPhotoIndex((prev) => (prev + 1) % photoDump.length);
+  };
+
+  const prevPhoto = () => {
+    if (photoDump.length === 0) return;
+    setCurrentPhotoIndex((prev) => (prev - 1 + photoDump.length) % photoDump.length);
+  };
+
   // Skills state
   const [selectedSkillCategory, setSelectedSkillCategory] = useState<string>("all");
 
@@ -88,8 +121,8 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
     selectedTag === "ALL"
       ? PROFILE_DATA.publications
       : PROFILE_DATA.publications.filter((p) =>
-          p.tags.some((t) => t.toLowerCase().includes(selectedTag.toLowerCase()))
-        );
+        p.tags.some((t) => t.toLowerCase().includes(selectedTag.toLowerCase()))
+      );
 
   const handleCopyBibtex = (pub: Publication) => {
     const bibtex = `@article{vivekanand${pub.date.replace(/[^0-9]/g, "")}_${pub.id},
@@ -115,6 +148,7 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
       case "frame_of_events_stereo":
         return Zap;
       case "chaos_cryptography":
+      case "dcgan_steganography":
         return Lock;
       case "lqr_inverted_pendulum":
         return Compass;
@@ -195,9 +229,9 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
       {/* 1. HERO SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="rounded-3xl bg-white dark:bg-[#0f151f]/80 border border-slate-200 dark:border-[#1b2737] p-6 sm:p-10 md:p-12 shadow-md dark:shadow-2xl relative overflow-hidden backdrop-blur-sm">
-          {/* Subtle Ambient Background Gradients */}
-          <div className="absolute top-0 right-0 -mt-16 -mr-16 w-96 h-96 bg-blue-50/70 dark:bg-[#3b5980]/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-96 h-96 bg-slate-50/80 dark:bg-[#1a2d45]/15 rounded-full blur-3xl pointer-events-none" />
+          {/* Subtle Ambient Background Gradients (Dark Mode Only) */}
+          <div className="hidden dark:block absolute top-0 right-0 -mt-16 -mr-16 w-96 h-96 bg-[#3b5980]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="hidden dark:block absolute bottom-0 left-0 -mb-16 -ml-16 w-96 h-96 bg-[#1a2d45]/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-7 md:gap-9">
             {/* Professional Headshot Frame */}
@@ -240,14 +274,14 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                 </button>
 
                 <a
-                  href={getAssetPath("/Vijay_Shankaran_Vivekanand_CV.pdf")}
-                  download="Vijay_Shankaran_Vivekanand_CV.pdf"
+                  href={getAssetPath("/Vijay_Shankaran_Vivekanand_Supplemental.pdf")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm border border-slate-300 transition-all flex items-center gap-2 shadow-sm dark:bg-[#141d2a] dark:hover:bg-[#1c2838] dark:text-slate-200 dark:border-[#243447]"
+                  title="View extended research supplement with full paper titles, DOIs, abstracts & honors"
                 >
-                  <Download className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
-                  <span>Download PDF</span>
+                  <BookOpen className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
+                  <span>Research Supplement PDF</span>
                 </a>
 
                 <button
@@ -257,7 +291,7 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                   className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs sm:text-sm border border-slate-300 transition-all flex items-center gap-2 shadow-sm dark:bg-[#141d2a] dark:hover:bg-[#1c2838] dark:text-slate-200 dark:border-[#243447]"
                 >
                   <Mail className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
-                  <span>Get in Touch</span>
+                  <span>Contact</span>
                 </button>
 
                 <a
@@ -286,13 +320,13 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
           </div>
 
           {/* Key Metrics Strip */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-10 pt-8 border-t border-slate-200 dark:border-[#1a2636]">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-10 pt-8 border-t border-slate-200 dark:border-[#1a2636] relative z-10">
             {PROFILE_DATA.stats.map((stat) => (
               <div
                 key={stat.label}
-                className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#121a24]/90 border border-slate-200 dark:border-[#1e2a3b] space-y-1 shadow-sm"
+                className="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#121a24] border border-slate-200 dark:border-[#1e2a3b] space-y-1 shadow-sm"
               >
-                <div className="text-[11px] font-mono text-slate-600 dark:text-slate-400 uppercase font-medium">
+                <div className="text-[11px] font-mono text-slate-700 dark:text-slate-400 uppercase font-semibold">
                   {stat.label}
                 </div>
                 <div className="flex items-baseline gap-1">
@@ -300,12 +334,12 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                     {stat.value}
                   </span>
                   {stat.unit && (
-                    <span className="text-xs font-mono text-slate-600 dark:text-slate-400 font-medium">
+                    <span className="text-xs font-mono text-slate-700 dark:text-slate-400 font-semibold">
                       {stat.unit}
                     </span>
                   )}
                 </div>
-                <div className="text-[11px] text-slate-600 dark:text-slate-400 leading-tight">
+                <div className="text-[11px] text-slate-600 dark:text-slate-400 leading-tight font-medium">
                   {stat.sub}
                 </div>
               </div>
@@ -404,11 +438,10 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                 onClick={() => {
                   setSelectedTag(tag);
                 }}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${
-                  selectedTag === tag
+                className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${selectedTag === tag
                     ? "bg-slate-900 dark:bg-[#25364a] text-white font-bold border border-slate-900 dark:border-[#3b516e]"
                     : "bg-slate-100 dark:bg-[#141b25] text-slate-700 dark:text-slate-400 hover:text-black dark:hover:text-slate-200 border border-slate-300 dark:border-[#202c3c]"
-                }`}
+                  }`}
               >
                 {tag}
               </button>
@@ -424,11 +457,10 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
             return (
               <div
                 key={pub.id}
-                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
-                  isExpanded
+                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${isExpanded
                     ? "bg-slate-50 dark:bg-[#121924] border-slate-300 dark:border-[#2c3d52] shadow-md"
                     : "bg-white dark:bg-[#0f151f] border-slate-200 dark:border-[#1c2738] hover:border-slate-300 dark:hover:border-[#28384b]"
-                }`}
+                  }`}
               >
                 <div
                   onClick={() => {
@@ -500,9 +532,8 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                       </button>
 
                       <ChevronDown
-                        className={`w-4 h-4 text-slate-600 dark:text-slate-400 transition-transform duration-200 ${
-                          isExpanded ? "transform rotate-180 text-slate-900 dark:text-white" : ""
-                        }`}
+                        className={`w-4 h-4 text-slate-600 dark:text-slate-400 transition-transform duration-200 ${isExpanded ? "transform rotate-180 text-slate-900 dark:text-white" : ""
+                          }`}
                       />
                     </div>
                   </div>
@@ -594,11 +625,10 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                   onClick={() => {
                     setSelectedExpId(exp.id);
                   }}
-                  className={`w-full text-left p-4 rounded-2xl border transition-all duration-200 select-none ${
-                    isSelected
+                  className={`w-full text-left p-4 rounded-2xl border transition-all duration-200 select-none ${isSelected
                       ? "bg-slate-100 dark:bg-[#151e2b] border-slate-400 dark:border-[#384d66] shadow-sm ring-1 ring-slate-400/40 dark:ring-[#5294e2]/30"
                       : "bg-white dark:bg-[#0f151f] border-slate-200 dark:border-[#1c2738] hover:bg-slate-50 dark:hover:bg-[#121a24] text-slate-700 dark:text-slate-400"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-start justify-between">
                     <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-[#172230] text-slate-800 dark:text-slate-300 border border-slate-200 dark:border-[#253648] font-semibold">
@@ -797,11 +827,10 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                 onClick={() => {
                   setSelectedSkillCategory(c.id);
                 }}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${
-                  selectedSkillCategory === c.id
+                className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${selectedSkillCategory === c.id
                     ? "bg-slate-900 dark:bg-[#25364a] text-white font-bold border border-slate-900 dark:border-[#3b516e]"
                     : "bg-slate-100 dark:bg-[#141b25] text-slate-700 dark:text-slate-400 hover:text-black dark:hover:text-slate-200 border border-slate-300 dark:border-[#202c3c]"
-                }`}
+                  }`}
               >
                 {c.label}
               </button>
@@ -975,6 +1004,73 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
                   {interest.description}
                 </p>
 
+                {/* Video Editing Showcase */}
+                {interest.videos && interest.videos.length > 0 && (
+                  <div className="pt-2 space-y-2">
+                    <div className="text-[10px] font-mono uppercase text-slate-600 dark:text-slate-400 font-bold flex items-center gap-1.5">
+                      <Play className="w-3 h-3 text-red-500 fill-red-500" />
+                      <span>Video Editing Portfolio ({interest.videos.length} Clips)</span>
+                    </div>
+                    <div className="space-y-2">
+                      {interest.videos.map((vid, idx) => (
+                        <a
+                          key={idx}
+                          href={vid.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-[#131b26] border border-slate-200 dark:border-[#1e2a3b] hover:border-red-500/50 hover:bg-red-50/20 dark:hover:bg-[#1a2332] transition-all group/vid"
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-7 h-7 rounded-lg bg-red-600/10 border border-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400 group-hover/vid:bg-red-600 group-hover/vid:text-white transition-colors">
+                              <Play className="w-3.5 h-3.5 fill-current" />
+                            </div>
+                            <div>
+                              <div className="text-xs font-semibold text-slate-900 dark:text-slate-100 group-hover/vid:text-red-600 dark:group-hover/vid:text-red-400 transition-colors">
+                                {vid.title}
+                              </div>
+                              {vid.description && (
+                                <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                                  {vid.description}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover/vid:text-red-500 transition-colors" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Scientific Illustration & Digital Art Figures Showcase */}
+                {interest.figures && interest.figures.length > 0 && (
+                  <div className="pt-2 space-y-2">
+                    <div className="text-[10px] font-mono uppercase text-slate-600 dark:text-slate-400 font-bold flex items-center gap-1.5">
+                      <ImageIcon className="w-3 h-3 text-blue-500" />
+                      <span>Scientific Illustrations & Schematics ({interest.figures.length})</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      {interest.figures.map((fig, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setSelectedFigure(fig)}
+                          className="group/fig relative aspect-[4/3] rounded-xl overflow-hidden border border-slate-200 dark:border-[#223042] bg-slate-100 dark:bg-[#121924] hover:border-blue-500 dark:hover:border-blue-400 transition-all text-left shadow-xs cursor-pointer"
+                        >
+                          <img
+                            src={getAssetPath(fig.image)}
+                            alt={fig.title}
+                            className="w-full h-full object-cover group-hover/fig:scale-105 transition-transform duration-200"
+                          />
+                          <div className="absolute inset-0 bg-black/55 opacity-0 group-hover/fig:opacity-100 transition-opacity flex flex-col justify-end p-2 text-left">
+                            <span className="text-[10px] font-mono text-white font-bold leading-tight line-clamp-1">{fig.title}</span>
+                            <span className="text-[9px] font-mono text-blue-300">Click to expand</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Optional Interest Showcase Image */}
                 {interest.image && (
                   <div className="relative rounded-xl overflow-hidden border border-slate-200 dark:border-[#243446] bg-slate-950 mt-2 shadow-sm group-hover:border-blue-500/40 transition-colors">
@@ -1006,37 +1102,147 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
             </div>
           ))}
 
-          {/* Casual Photo Card (IMG_2506) */}
-          {PROFILE_DATA.personality.image && (
-            <div className="p-4 rounded-2xl bg-white dark:bg-[#0f151f] border border-slate-200 dark:border-[#1c2738] hover:border-slate-300 dark:hover:border-[#2b3e54] transition-all duration-200 shadow-sm group flex flex-col justify-between overflow-hidden">
-              <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100 dark:bg-[#16212e] border border-slate-200 dark:border-[#243446]">
-                <img
-                  src={getAssetPath(PROFILE_DATA.personality.image)}
-                  alt="Vijay Vivekanand - Casual Vibe"
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md text-white text-[10px] font-mono font-medium flex items-center gap-1.5 border border-white/20">
-                  <MapPin className="w-3 h-3 text-amber-400" />
-                  <span>Washington, D.C.</span>
+          {/* Photo Reel / Life Outside the Lab Tile */}
+          {photoDump.length > 0 && (
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0f151f] border border-slate-200 dark:border-[#1c2738] hover:border-slate-300 dark:hover:border-[#2b3e54] transition-all duration-200 space-y-4 shadow-sm group flex flex-col justify-between select-none">
+              <div className="space-y-3">
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-[#16212e] border border-slate-200 dark:border-[#243446] flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-105 transition-transform">
+                    <Camera className="w-5 h-5" />
+                  </div>
+                  <span className="text-[11px] font-mono font-medium text-slate-600 dark:text-slate-400 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-[#16212e] border border-slate-200 dark:border-[#243446]">
+                    Photography & Moments
+                  </span>
                 </div>
-                <div className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md text-white text-[10px] font-mono font-medium border border-white/20">
-                  Casual Vibe
+
+                <div>
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-bold text-slate-900 dark:text-white text-base sm:text-lg group-hover:text-blue-600 dark:group-hover:text-white transition-colors">
+                      Life Outside the Lab
+                    </h3>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#16212e] border border-slate-200 dark:border-[#223244] text-slate-600 dark:text-slate-400 font-semibold">
+                      {String(currentPhotoIndex + 1).padStart(2, "0")} / {String(photoDump.length).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono text-slate-600 dark:text-slate-400 mt-0.5">
+                    Travel chronicles, trails & candid snapshots
+                  </div>
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-sans font-normal">
+                  Candid moments, campus life, scenic trails, and travel chronicles captured along the way.
+                </p>
+
+                {/* Compact Interactive Slideshow Stage */}
+                <div className="space-y-2 pt-1">
+                  <div
+                    className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-slate-950 border border-slate-200 dark:border-[#202c3c] flex items-center justify-center select-none"
+                    onContextMenu={(e) => e.preventDefault()}
+                  >
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentPhotoIndex}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="w-full h-full flex items-center justify-center relative select-none"
+                      >
+                        <img
+                          src={getAssetPath(photoDump[currentPhotoIndex].image)}
+                          alt={photoDump[currentPhotoIndex].caption || "Casual Photo"}
+                          className="w-full h-full object-cover pointer-events-none select-none"
+                          draggable={false}
+                          onContextMenu={(e) => e.preventDefault()}
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {/* Protective transparent overlay */}
+                    <div
+                      className="absolute inset-0 select-none z-10"
+                      onContextMenu={(e) => e.preventDefault()}
+                    />
+
+                    {/* Previous / Next Hover Arrows */}
+                    <button
+                      onClick={prevPhoto}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-80 hover:opacity-100 transition-all shadow-md cursor-pointer"
+                      title="Previous photo"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      onClick={nextPhoto}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-80 hover:opacity-100 transition-all shadow-md cursor-pointer"
+                      title="Next photo"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+
+                    {/* Bottom Caption Overlay */}
+                    {photoDump[currentPhotoIndex].caption && (
+                      <div className="absolute bottom-2 inset-x-2 z-20 flex justify-center pointer-events-none">
+                        <div className="px-3 py-1 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-mono font-medium border border-white/15 text-center shadow-md truncate max-w-[95%]">
+                          {photoDump[currentPhotoIndex].caption}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Mini Controls & Dots */}
+                  <div className="flex items-center justify-between gap-2 pt-1">
+                    <button
+                      onClick={() => setIsSlideshowPlaying((prev) => !prev)}
+                      className="px-2 py-1 rounded-md bg-slate-100 dark:bg-[#141d28] border border-slate-200 dark:border-[#202c3c] text-slate-700 dark:text-slate-300 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1 text-[10px] font-mono cursor-pointer"
+                    >
+                      {isSlideshowPlaying ? (
+                        <>
+                          <Pause className="w-3 h-3 text-amber-500" />
+                          <span>Pause</span>
+                        </>
+                      ) : (
+                        <>
+                          <Play className="w-3 h-3 text-blue-500 fill-current" />
+                          <span>Play</span>
+                        </>
+                      )}
+                    </button>
+
+                    <div className="flex items-center gap-1.5 overflow-x-auto py-0.5 scrollbar-none">
+                      {photoDump.map((item, idx) => (
+                        <button
+                          key={item.id}
+                          onClick={() => setCurrentPhotoIndex(idx)}
+                          className={`h-2 rounded-full transition-all cursor-pointer ${
+                            currentPhotoIndex === idx
+                              ? "bg-blue-600 dark:bg-blue-400 w-4"
+                              : "bg-slate-300 dark:bg-[#28384d] hover:bg-slate-400 w-2"
+                          }`}
+                          title={`Slide ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="pt-3.5 space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono font-medium text-amber-700 dark:text-amber-400">
-                    Life Outside the Lab
+              {/* Highlights Chips */}
+              <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 dark:border-[#16202c]">
+                {["Travel Chronicles", "Scenic Trails", "Campus Memories", "Candid Snapshots"].map((item) => (
+                  <span
+                    key={item}
+                    className="text-[11px] font-sans px-2.5 py-1 rounded-md bg-slate-50 dark:bg-[#141d28] border border-slate-200 dark:border-[#1e2a39] text-slate-700 dark:text-slate-300 font-medium"
+                  >
+                    {item}
                   </span>
-                  <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">Albert Einstein Memorial</span>
-                </div>
-                <p className="text-xs text-slate-700 dark:text-slate-300 font-sans italic leading-relaxed">
-                  &ldquo;{PROFILE_DATA.personality.imageCaption}&rdquo;
-                </p>
+                ))}
               </div>
             </div>
           )}
+
         </div>
 
         {/* Guiding Life & Engineering Philosophies */}
@@ -1092,11 +1298,13 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
             </button>
 
             <a
-              href={`mailto:${PROFILE_DATA.email}`}
+              href={PROFILE_DATA.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-5 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-semibold text-sm border border-slate-300 transition-all flex items-center gap-2 shadow-sm dark:bg-[#141c26] dark:hover:bg-[#1a2431] dark:text-slate-200 dark:border-[#243345]"
             >
-              <ExternalLink className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-              <span>{PROFILE_DATA.email}</span>
+              <Linkedin className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+              <span>Connect on LinkedIn</span>
             </a>
 
             <button
@@ -1108,9 +1316,69 @@ export const StandardPortfolioView: React.FC<StandardPortfolioViewProps> = ({
               <FileText className="w-4 h-4 text-slate-600 dark:text-slate-400" />
               <span>View Full CV</span>
             </button>
+
+            <a
+              href={getAssetPath("/Vijay_Shankaran_Vivekanand_Supplemental.pdf")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-semibold text-sm border border-slate-300 transition-all flex items-center gap-2 shadow-sm dark:bg-[#141c26] dark:hover:bg-[#1a2431] dark:text-slate-200 dark:border-[#243345]"
+            >
+              <BookOpen className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+              <span>Research Supplement PDF</span>
+            </a>
           </div>
         </div>
       </section>
+
+      {/* Experimental Research Figure Modal */}
+      <AnimatePresence>
+        {selectedFigure && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="relative w-full max-w-4xl max-h-[90vh] flex flex-col bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden text-slate-100"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-slate-950/70">
+                <div className="flex items-center gap-2">
+                  <ImageIcon className="w-4 h-4 text-blue-400" />
+                  <h3 className="font-bold text-sm sm:text-base text-white font-sans">
+                    {selectedFigure.title}
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setSelectedFigure(null)}
+                  className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Image Container */}
+              <div className="p-4 overflow-auto flex items-center justify-center bg-slate-950/40 min-h-[300px]">
+                <img
+                  src={getAssetPath(selectedFigure.image)}
+                  alt={selectedFigure.title}
+                  className="max-h-[60vh] w-auto max-w-full object-contain rounded-lg border border-slate-800 bg-white"
+                />
+              </div>
+
+              {/* Caption */}
+              <div className="p-4 border-t border-slate-800 bg-slate-950/90">
+                <div className="text-[11px] font-mono uppercase text-blue-400 font-bold mb-1">
+                  Figure Details & Description:
+                </div>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  {selectedFigure.caption}
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

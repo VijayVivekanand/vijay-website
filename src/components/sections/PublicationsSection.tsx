@@ -11,7 +11,9 @@ import {
   Calendar,
   ChevronDown,
   ExternalLink,
+  Download,
 } from "lucide-react";
+import { getAssetPath } from "@/lib/basePath";
 
 interface PublicationsSectionProps {
   onTriggerAchievement?: (id: string, title: string, desc: string) => void;
@@ -84,6 +86,19 @@ export const PublicationsSection: React.FC<PublicationsSectionProps> = ({
             Research contributions across neuromorphic sensorimotor control, event-based vision,
             spiking neural networks, and CMOS hardware acceleration.
           </p>
+
+          <div className="pt-2.5">
+            <a
+              href={getAssetPath("/Vijay_Shankaran_Vivekanand_Supplemental.pdf")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#182333] hover:bg-[#202e42] text-slate-200 hover:text-white border border-[#2b3e57] text-xs font-medium transition-all shadow-sm"
+              title="Open the 5-page complete research & academic supplement"
+            >
+              <Download className="w-3.5 h-3.5 text-slate-300" />
+              <span>Full Research Supplement PDF</span>
+            </a>
+          </div>
         </div>
 
         {/* Tag Filters */}

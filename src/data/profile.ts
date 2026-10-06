@@ -33,6 +33,7 @@ export interface Project {
   tags: string[];
   link?: string;
   doi?: string;
+  figures?: { title: string; caption: string; image: string }[];
   mathSnippet?: string;
   metrics?: string;
 }
@@ -57,6 +58,15 @@ export interface PersonalityInterest {
   highlights: string[];
   image?: string;
   badge?: string;
+  videos?: { title: string; url: string; youtubeId: string; description?: string }[];
+  figures?: { title: string; caption: string; image: string }[];
+}
+
+export interface PhotoDumpItem {
+  id: string;
+  image: string;
+  caption?: string;
+  location?: string;
 }
 
 export interface PersonalityData {
@@ -65,6 +75,7 @@ export interface PersonalityData {
   image?: string;
   imageCaption?: string;
   interests: PersonalityInterest[];
+  photoDump?: PhotoDumpItem[];
   quickBites: { label: string; value: string; icon: string }[];
   philosophies: { principle: string; quote: string }[];
 }
@@ -76,6 +87,7 @@ export interface ProfileData {
   phone: string;
   linkedin: string;
   github?: string;
+  formspreeFormId?: string;
   bio: string;
   researchInterests: string[];
   education: {
@@ -105,6 +117,7 @@ export const PROFILE_DATA: ProfileData = {
   email: "v.vijayshankaran@gmail.com",
   phone: "+1-412-726-4553",
   linkedin: "https://www.linkedin.com/in/vijay-s-vivekanand",
+  formspreeFormId: "xdeaagnq",
   bio: "Focused on the intersection of deep learning and robust control theory for autonomous robotic systems. Developing data-efficient learning algorithms for perception-action loops, specifically leveraging event-based vision and foundation models to enable real-time decision-making in dynamic, unstructured environments.",
   researchInterests: [
     "Embodied AI & Foundation Models",
@@ -157,9 +170,9 @@ export const PROFILE_DATA: ProfileData = {
   ],
   stats: [
     { label: "Publications", value: "5", unit: "Articles", sub: "Peer-reviewed (Frontiers, IEEE, ACM)" },
-    { label: "MS GPA", value: "3.85", unit: "/ 4.0", sub: "University of Pittsburgh (ECE)" },
-    { label: "B.Tech CGPA", value: "3.30", unit: "/ 4.0", sub: "PES University (Signal Processing)" },
-    { label: "Research Focus", value: "Neuromorphic", unit: "AI & Robotics", sub: "Event-Based Vision & SNNs" },
+    { label: "Perception Latency", value: "< 3.8 ms", unit: "DVS Stereo", sub: "Frame of events disparity & tracking" },
+    { label: "Edge ASIC Power", value: "1.68 mW", unit: "@ 211 FPS", sub: "28-nm CMOS DNF hardware accelerator" },
+    { label: "Research Focus", value: "Neuromorphic", unit: "AI & Robotics", sub: "Event-Based Vision & Adaptive Control" },
   ],
   publications: [
     {
@@ -231,29 +244,34 @@ export const PROFILE_DATA: ProfileData = {
   experience: [
     {
       id: "coi-energy",
-      role: "Lead Machine Learning & AI Solutions Engineer",
-      organization: "COI Energy Services",
-      location: "Tampa, FL / Remote",
-      period: "Jan 2024 – Present",
+      role: "AI Engineer",
+      organization: "COI Energy",
+      location: "Pittsburgh, PA",
+      period: "Feb 2024 – Present",
       type: "industry",
       points: [
         {
-          title: "Multi-Agent Energy Forecasting & Grid Optimization",
-          desc: "Architected end-to-end predictive energy load and peak demand forecasting pipeline for enterprise industrial facilities utilizing Prophet, XGBoost, and deep recurrent neural networks.",
-          metrics: "94.2% Prediction Accuracy · $4.1M Pipeline",
+          title: "Scalable Data Infrastructure",
+          desc: "Independently architected an asynchronous, high-throughput data pipeline for the real-time ingestion of smart meter telemetry. Optimized the system for concurrency to handle massive data streams, reducing data availability latency and directly supporting the training of downstream forecasting models.",
+          metrics: "Real-time High-throughput Telemetry Stream",
         },
         {
-          title: "Generative AI Assistant for Energy Audits",
-          desc: "Engineered high-accuracy Retrieval-Augmented Generation (RAG) assistant integrating complex building blueprints, ASHRAE standards, and utility rate tariffs into structured actionable retrofit insights.",
-          metrics: "60% Reduction in Audit Time",
+          title: "Generative AI & RAG",
+          desc: "Architected a domain-specific Retrieval-Augmented Generation (RAG) system using Gemini 2.5 on GCP. Engineered the vector retrieval pipeline for curated technical documentation, significantly reducing query latency for customer support.",
+          metrics: "Gemini 2.5 on GCP · Low-Latency Vector Retrieval",
         },
         {
-          title: "Distributed Edge Sensor Pipeline",
-          desc: "Deployed resilient IoT ingestion microservices handling real-time high-frequency telemetry across 500+ commercial building sensors with sub-second alerting.",
-          metrics: "99.98% Telemetry Uptime",
+          title: "Time-Series Forecasting",
+          desc: "Developed comparative models (Prophet vs. XGBoost) for energy load forecasting, achieving 92% accuracy in predicting consumption peaks for commercial clients.",
+          metrics: "92% Peak Prediction Accuracy",
+        },
+        {
+          title: "Industrial Automation",
+          desc: "Designed automated control logic for remote generator operations, increasing system response reliability by 80% during critical grid demand events.",
+          metrics: "80% Response Reliability Increase",
         },
       ],
-      technologies: ["Python", "PyTorch", "GCP", "FastAPI", "Docker", "LangChain", "PostgreSQL", "XGBoost"],
+      technologies: ["Python", "Gemini 2.5", "GCP", "Vector DB (RAG)", "Prophet", "XGBoost", "AsyncIO", "FastAPI", "Docker", "Industrial Automation"],
     },
     {
       id: "enigma-lab",
@@ -284,51 +302,66 @@ export const PROFILE_DATA: ProfileData = {
     },
     {
       id: "viatris",
-      role: "AI & Data Automation Specialist",
-      organization: "Viatris",
-      location: "Pittsburgh, PA",
-      period: "May 2023 – Aug 2023",
+      role: "Manufacturing Analytics Intern",
+      organization: "Viatris Pharmaceuticals",
+      location: "Canonsburg, PA",
+      period: "June 2023 – Aug 2023",
       type: "internship",
       points: [
         {
-          title: "Enterprise Automation & Data Intelligence",
-          desc: "Developed automated data intelligence workflows and predictive quality assurance metrics across global supply chain logistics, cutting manual report overhead by 70%.",
-          metrics: "70% Manual Time Reduction",
+          title: "MRP Rationalization & Pricing Interface",
+          desc: "Developed a Python-based MRP Rationalization interface for effective global pricing and conversions for the user to optimize global supply chain costs.",
+          metrics: "Global Supply Chain Optimization",
+        },
+        {
+          title: "Power BI LIMS & SAP Dashboards",
+          desc: "Designed and developed Power BI dashboards integrating live data from Laboratory Inventory Management System and SAP to help users make informed business decisions.",
+          metrics: "Live LIMS & SAP Integration",
         },
       ],
-      technologies: ["Python", "SQL", "Tableau", "Process Automation"],
+      technologies: ["Python", "Power BI", "SAP", "LIMS", "MRP", "Supply Chain Analytics"],
     },
     {
       id: "happiest-minds",
-      role: "Embedded Systems & AI Engineer",
+      role: "Robotic Process Automation Intern",
       organization: "Happiest Minds Technologies",
-      location: "Bangalore, India",
-      period: "Aug 2021 – Dec 2021",
-      type: "industry",
-      points: [
-        {
-          title: "Industrial Edge IoT Firmware",
-          desc: "Developed deterministic firmware on ARM Cortex-M microcontrollers and integrated computer vision inference models for edge defect classification on industrial assembly lines.",
-          metrics: "98.5% Real-Time Inference Accuracy",
-        },
-      ],
-      technologies: ["Embedded C/C++", "ARM Cortex-M", "TensorFlow Lite", "FreeRTOS", "MQTT"],
-    },
-    {
-      id: "mylan",
-      role: "Systems Automation Intern",
-      organization: "Mylan Laboratories",
       location: "Bangalore, India",
       period: "Jan 2021 – May 2021",
       type: "internship",
       points: [
         {
-          title: "Automated Equipment Telemetry Verification",
-          desc: "Engineered automated data collection scripts for manufacturing hardware sensors and designed real-time anomaly detection pipelines.",
-          metrics: "100% Audit Compliance",
+          title: "Robotic Process Automation Cost Extraction",
+          desc: "Programmed Robotic Process Automation scripts for extracting costs incurred from clients' bills of materials, which led to faster bill processing by 500%.",
+          metrics: "500% Faster Bill Processing",
+        },
+        {
+          title: "Automated Summary Document Generation",
+          desc: "Implemented an algorithm to annotate template files to automatically generate a summary document from a design document.",
+          metrics: "Automated Template Annotation",
         },
       ],
-      technologies: ["Python", "SCADA", "Statistical Process Control"],
+      technologies: ["RPA", "Python", "Document Processing", "Process Automation", "Algorithm Design"],
+    },
+    {
+      id: "mylan",
+      role: "Custom Apps Intern",
+      organization: "Mylan Pharmaceuticals",
+      location: "Bangalore, India",
+      period: "May 2019 – July 2019",
+      type: "internship",
+      points: [
+        {
+          title: "Automated OCR in GxP Environment",
+          desc: "Charted a Python-based automated OCR system for improved QC testing accuracy and speed in a GxP environment.",
+          metrics: "GxP Compliant QC Acceleration",
+        },
+        {
+          title: "Lab Data Validation Interface",
+          desc: "Engineered a secure, user-friendly data validation interface for laboratory technicians, reducing manual review time and ensuring compliance with industry standards.",
+          metrics: "Laboratory QC Compliance",
+        },
+      ],
+      technologies: ["Python", "OCR", "GxP Compliance", "Data Validation", "UI Design"],
     },
   ],
   projects: [
@@ -394,29 +427,29 @@ export const PROFILE_DATA: ProfileData = {
     },
     {
       id: "silicon_cochlea",
-      title: "Binaural Neuromorphic Silicon Cochlea with ITD Sound Localization",
-      category: "Neuromorphic Hardware & Audio",
-      description: "A mixed-signal silicon cochlea front-end coupled with an asynchronous Spiking Neural Network on Intel Loihi. Replicates human auditory periphery mechanics to perform 3D sound localization via sub-microsecond Interaural Time Difference (ITD) detection.",
+      title: "Binaural Neuromorphic Silicon Cochlea Simulation & ITD Sound Localization",
+      category: "Neuromorphic Audio & Software Simulation",
+      description: "Software simulation modeling a mixed-signal silicon cochlea front-end coupled with an asynchronous Spiking Neural Network on Intel Loihi. Replicates human auditory periphery mechanics to perform sound localization via sub-microsecond Interaural Time Difference (ITD) detection.",
       details: [
-        "Modeled multi-stage resonant basilar membrane filter banks with subthreshold CMOS circuits.",
-        "Synthesized spike-based cross-correlation coincidence detector network on Loihi achieving ±2.5° angular localization accuracy.",
-        "Measured continuous operating power consumption under 1.8 mW at 100 kHz acoustic bandwidth.",
+        "Modeled multi-stage resonant basilar membrane filter banks replicating subthreshold CMOS circuit models in software simulation.",
+        "Synthesized spike-based cross-correlation coincidence detector network modeled for Intel Loihi architecture, achieving ±2.5° angular localization accuracy.",
+        "Evaluated simulated behavioral acoustic response across a 100 kHz acoustic bandwidth.",
       ],
-      tags: ["Intel Loihi", "Silicon Cochlea", "Spiking Neural Networks", "VLSI", "Audio DSP"],
-      metrics: "±2.5° Angular Resolution · 1.8 mW Power",
+      tags: ["Software Simulation", "Intel Loihi Modeling", "Silicon Cochlea", "Spiking Neural Networks", "Audio DSP"],
+      metrics: "Software SNN Simulation · ±2.5° Angular Resolution",
     },
     {
       id: "chaos_cryptography",
-      title: "Real-Time Chaos-Based Hyperchaotic Image Encryption System",
-      category: "Cryptography & Signal Processing",
-      description: "Designed and implemented a 4D Lorenz-Chen hyperchaotic attractor cryptographic engine for high-throughput, low-latency secure multimedia streaming.",
+      title: "Chaotic Neural Network (CNN) Image & Data Encryption",
+      category: "Neural Cryptography & Nonlinear Dynamics",
+      description: "Designed a high-security cryptographic framework leveraging Chaotic Neural Networks where network weights and biases are driven by deterministic chaotic sequence generators for high-entropy image diffusion and bit-level permutation.",
       details: [
-        "Implemented high-dimensional pseudo-random permutation and diffusion algorithms exhibiting infinite phase space sensitivity.",
-        "Demonstrated resistance to differential cryptanalysis with NPCR > 99.6% and UACI > 33.4%.",
-        "Streamed real-time 1080p60 encrypted video feeds with zero perceptual frame dropping on embedded ARM platforms.",
+        "Engineered a chaotic sequence generation pipeline x(n+1) = μ(n)(1 - x(n)) producing 8M pseudorandom bitstreams for byte-level neuron activation.",
+        "Formulated feedback-controlled artificial neural network layers capable of nonlinear encryption and lossless inverse decryption given matched initial conditions x(0) and parameter μ.",
+        "Achieved an astronomical theoretical search space of 2^524288 (~10^157810) for 64 KB image payloads, demonstrating immense security against brute-force and differential cryptanalysis.",
       ],
-      tags: ["Nonlinear Dynamics", "Chaos Theory", "Embedded Security", "C++", "OpenCV"],
-      metrics: "NPCR > 99.6% · Real-Time 1080p60 Streaming",
+      tags: ["Chaotic Neural Networks", "Nonlinear Dynamics", "Image Encryption", "Deterministic Chaos", "ANN Cryptography"],
+      metrics: "2^524288 (~10^157810) Key Space · Zero Distortion Decryption",
     },
     {
       id: "lqr_inverted_pendulum",
@@ -430,6 +463,19 @@ export const PROFILE_DATA: ProfileData = {
       ],
       tags: ["Modern Control Theory", "LQR / LQG", "Kalman Filter", "MATLAB", "Simulink", "State-Space"],
       metrics: "1.2s Swing-up · 25° Impulse Rejection",
+    },
+    {
+      id: "dcgan_steganography",
+      title: "Cover-Based Image Steganography Using DCGANs",
+      category: "Generative AI & Image Cryptography",
+      description: "End-to-end cover-based steganography framework utilizing Deep Convolutional Generative Adversarial Networks (DCGAN), Dense Encoders, and Reed-Solomon error correction to conceal arbitrary secret data payloads inside synthesized cover images without perceptual visual distortion.",
+      details: [
+        "Architected a 3-phase DCGAN pipeline comprising generative cover synthesis, dense convolutional feature mapping, and extractor-based secret message retrieval.",
+        "Integrated Reed-Solomon encoding with Chien search polynomial roots and zip compression for robust data recovery and anomaly tolerance.",
+        "Achieved high embedding capacity of 0.103 bytes/pixel (4000 bytes per 218×178 image) with 0.99944 SSIM and 0.00071 RMSE on the DIV2K benchmark.",
+      ],
+      tags: ["DCGAN", "Steganography", "Generative AI", "Reed-Solomon", "PyTorch", "DIV2K"],
+      metrics: "0.103 bytes/pixel · 0.99944 SSIM · 0.00071 RMSE",
     },
   ],
   skills: [
@@ -543,34 +589,86 @@ export const PROFILE_DATA: ProfileData = {
         description: "Crafting narratives through visual rhythm and acoustic tempo. Blending sound design with frame-accurate cuts, dynamic transitions, and color grading to transform raw sequences into impactful visual stories.",
         icon: "Video",
         highlights: ["Audio-Visual Beat Syncing", "Color Grading & Cinematic Look", "Dynamic Transitions & Motion Rhythm"],
+        videos: [
+          {
+            title: "Cinematic Sequence Cut I",
+            url: "https://www.youtube.com/watch?v=_e_qkktVjRU",
+            youtubeId: "_e_qkktVjRU",
+            description: "High-energy beat sync, dynamic cuts, and precision pacing.",
+          },
+          {
+            title: "Cinematic Sequence Cut II",
+            url: "https://www.youtube.com/watch?v=9AKoM28ix68",
+            youtubeId: "9AKoM28ix68",
+            description: "Atmospheric color grading, rhythmic transitions, and audio design.",
+          },
+          {
+            title: "Cinematic Sequence Cut III",
+            url: "https://www.youtube.com/watch?v=4E66LwjxBy4",
+            youtubeId: "4E66LwjxBy4",
+            description: "Fast-paced montage with frame-accurate audio alignment.",
+          },
+        ],
       },
       {
         id: "digital-art",
-        title: "Digital Art & Creative Illustration",
-        category: "Creative Expression",
-        tagline: "Concept styling, composition, palettes & visual aesthetics",
-        description: "Exploring creative expression on digital canvas—experimenting with character concepts, sci-fi palettes, lighting moods, and spatial composition. A refreshing creative balance to mathematical equations and code.",
+        title: "Digital Art & Scientific Illustration",
+        category: "Creative Expression & Diagrams",
+        tagline: "Technical diagrams, architectural concepts & scientific visualization",
+        description: "Exploring creative expression on digital canvas—designing biological/robotic system architectures, neural network flowcharts, character concepts, and spatial diagrams.",
         icon: "Palette",
-        highlights: ["Concept Art & Character Sketches", "Sci-Fi Color Palettes & Lighting", "Visual Composition & Framing"],
+        highlights: ["System Architecture Diagrams", "Neural Network Flowcharts", "Visual Composition & Framing"],
+        figures: [
+          {
+            title: "Biological vs. Robotic Quadruped Hierarchical Architecture",
+            caption: "Bio-inspired hierarchical sensorimotor control mapping biological brain/spinal cord/musculoskeletal pathways into DVS camera, Dynamic State Machine (DSM), Layer 1 CPG, and Layer 2 motor neurons on Petoi Bittle quadruped.",
+            image: "/figures/sensorimotor_control_framework.png",
+          },
+          {
+            title: "Multi-Layer SNN Architecture with Supervised STDP",
+            caption: "3-layer neural network featuring Spike Selection Layer, Spike Contribution Layer, and Coincidence Detection with auxiliary Start/Reward/Stop neurons undergoing synaptic weight evolution.",
+            image: "/figures/spiking_layers_stdp.png",
+          },
+          {
+            title: "Temporal Sequence Learning & Jitter Tolerance Raster Plots",
+            caption: "Spike raster plots demonstrating precise temporal sequence detection, channel swap rejection, missing spike resilience, and robust temporal jitter tolerance.",
+            image: "/figures/sequence_learning_raster.png",
+          },
+          {
+            title: "Limb Mapping, Weight Matrix & CPG Gaits Membrane Voltage Waveforms",
+            caption: "Inter-limb inhibitory/excitatory coupling matrix and membrane voltage oscillatory bursting waveforms for Trot, Jump, Crawl, Gallop, and Walk gaits on 4-limb quadruped.",
+            image: "/figures/cpg_gaits_membrane_voltage.jpg",
+          },
+        ],
       },
       {
         id: "football",
-        title: "Football / Soccer Enthusiast",
-        category: "Sports & Tactics",
-        tagline: "High-press transitions, matchday drama & tactical play",
-        description: "Passionate follower and player of the beautiful game. Deeply fascinated by high-pressing tactical setups, spatial awareness, counter-attack transitions, and the sheer electric atmosphere of matchday.",
+        title: "Football / Soccer",
+        category: "Sports & Hobbies",
+        tagline: "Pickup games, European football & tactical analysis",
+        description: "Enthusiastic player and follower of football. Enjoy playing weekend pickup games, following league and Champions League matches, and analyzing team tactics and formations.",
         icon: "Trophy",
-        highlights: ["Tactical Formations & Spatial Pressing", "Weekend Matchday Thrills", "Pivotal Playmaker Vision"],
+        highlights: ["Weekend Pickup Games", "European & Champions League Matches", "Tactical & Formation Analysis"],
       },
       {
         id: "puzzles-strategy",
-        title: "Puzzles, Logic & Strategy",
-        category: "Logic & Problem Solving",
-        tagline: "Chess, multi-step deduction, brain teasers & strategic foresight",
-        description: "Drawn to lateral thinking challenges, multi-step deduction, and tactical foresight where every move ripples across the board. Tackling complex spatial and mechanical puzzles is the ultimate mental playground.",
+        title: "Chess, Puzzles & Strategy",
+        category: "Problem Solving & Games",
+        tagline: "Chess, deduction puzzles & strategy games",
+        description: "Enjoy playing chess, solving mechanical and logic puzzles, and exploring strategy games that involve multi-step planning and analytical problem solving.",
         icon: "Brain",
-        highlights: ["Multi-Step Deductions", "Spatial & Mechanical Logic Puzzles", "Strategic Foresight & Game Theory"],
+        highlights: ["Chess & Board Games", "Logic & Mechanical Puzzles", "Analytical Problem Solving"],
       },
+    ],
+    photoDump: [
+      { id: "photo-1", image: "/photodump/IMG_1314.jpg", caption: "Adventures & travel chronicles" },
+      { id: "photo-2", image: "/photodump/IMG_1705_2.jpg", caption: "Exploring new horizons & trails" },
+      { id: "photo-3", image: "/photodump/IMG_2587.jpg", caption: "Scenic viewpoints & wanderlust" },
+      { id: "photo-4", image: "/photodump/IMG_3961.jpg", caption: "Moments captured along the way" },
+      { id: "photo-5", image: "/photodump/IMG_4005_2.jpg", caption: "Campus vibes & candid memories" },
+      { id: "photo-6", image: "/photodump/IMG_4048.jpg", caption: "Weekend getaways & cityscapes" },
+      { id: "photo-7", image: "/photodump/IMG_5271.jpg", caption: "Life in motion" },
+      { id: "photo-8", image: "/casual_photo.jpg", caption: "Albert Einstein Memorial · Washington, D.C." },
     ],
     quickBites: [
       { label: "Favorite Games", value: "Destiny 2 & Elden Ring", icon: "Gamepad2" },

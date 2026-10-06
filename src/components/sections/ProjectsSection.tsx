@@ -24,6 +24,7 @@ export const ProjectsSection: React.FC = () => {
       case "frame_of_events_stereo":
         return Zap;
       case "chaos_cryptography":
+      case "dcgan_steganography":
         return Lock;
       case "lqr_inverted_pendulum":
         return Compass;

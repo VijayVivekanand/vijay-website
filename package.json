@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:cv": "node scripts/generate_cv_pdf.js",
+    "generate:supplemental": "node scripts/generate_supplemental_pdf.js",
+    "generate:all-pdfs": "node scripts/generate_cv_pdf.js && node scripts/generate_supplemental_pdf.js"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.3",

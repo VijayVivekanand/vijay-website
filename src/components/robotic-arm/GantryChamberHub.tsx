@@ -32,7 +32,7 @@ export const LEFT_CHAMBERS: ChamberItem[] = [
     name: "Embodied AI & Perception",
     subtitle: "Research core, executive profile, and academic foundation",
     icon: Cpu,
-    metric: "Pitt M.S. · 3.85 GPA",
+    metric: "Pitt ECE · M.S. Systems",
   },
   {
     id: "publications",

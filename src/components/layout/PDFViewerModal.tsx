@@ -21,10 +21,20 @@ interface PDFViewerModalProps {
 export const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
   isOpen,
   onClose,
-  pdfUrl = getAssetPath("/Vijay_Shankaran_Vivekanand_CV.pdf"),
-  title = "Vijay_Shankaran_Vivekanand_CV.pdf",
+  pdfUrl,
+  title,
   onTriggerAchievement,
 }) => {
+  const [activeDoc, setActiveDoc] = React.useState<"cv" | "supplemental">("cv");
+
+  useEffect(() => {
+    if (pdfUrl && pdfUrl.includes("Supplemental")) {
+      setActiveDoc("supplemental");
+    } else {
+      setActiveDoc("cv");
+    }
+  }, [pdfUrl, isOpen]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -39,12 +49,26 @@ export const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
 
   if (!isOpen) return null;
 
+  const currentPdfUrl =
+    activeDoc === "supplemental"
+      ? getAssetPath("/Vijay_Shankaran_Vivekanand_Supplemental.pdf")
+      : getAssetPath("/Vijay_Shankaran_Vivekanand_CV.pdf");
+
+  const currentTitle =
+    activeDoc === "supplemental"
+      ? "Vijay_Shankaran_Vivekanand_Supplemental.pdf"
+      : "Vijay_Shankaran_Vivekanand_CV.pdf";
+
   const handleDownload = () => {
     if (onTriggerAchievement) {
       onTriggerAchievement(
-        "cv_acquired",
-        "Curriculum Vitae Retrieved",
-        "Downloaded official CV for Vijay Shankaran Vivekanand"
+        activeDoc === "supplemental" ? "supplemental_acquired" : "cv_acquired",
+        activeDoc === "supplemental"
+          ? "Supplemental Dossier Retrieved"
+          : "Curriculum Vitae Retrieved",
+        activeDoc === "supplemental"
+          ? "Downloaded official Research & Academic Supplement PDF"
+          : "Downloaded official CV for Vijay Shankaran Vivekanand"
       );
     }
   };
@@ -59,25 +83,41 @@ export const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
         className="relative w-full max-w-5xl h-[92vh] rounded-2xl bg-white dark:bg-[#0f151e] border border-slate-200 dark:border-[#223142] shadow-2xl flex flex-col overflow-hidden"
       >
         {/* Modal Top Titlebar */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 bg-slate-50 dark:bg-[#141b26] border-b border-slate-200 dark:border-[#1f2b3a] select-none flex-shrink-0">
-          <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center justify-between px-4 sm:px-6 py-3 bg-slate-50 dark:bg-[#141b26] border-b border-slate-200 dark:border-[#1f2b3a] select-none flex-shrink-0 gap-2">
+          <div className="flex items-center gap-3">
             <div className="w-7 h-7 rounded-lg bg-white dark:bg-[#1a2432] border border-slate-200 dark:border-[#293b50] flex items-center justify-center text-slate-700 dark:text-slate-300 shadow-sm">
               <FileText className="w-3.5 h-3.5" />
             </div>
-            <div>
-              <div className="font-bold font-sans text-xs sm:text-sm text-slate-900 dark:text-slate-100 truncate max-w-[200px] sm:max-w-md">
-                {title}
-              </div>
-              <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
-                Official Document Preview
-              </div>
+
+            {/* Document Switcher Tabs */}
+            <div className="flex items-center bg-slate-200/80 dark:bg-[#101620] p-0.5 rounded-lg border border-slate-300 dark:border-[#202c3c]">
+              <button
+                onClick={() => setActiveDoc("cv")}
+                className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-all ${
+                  activeDoc === "cv"
+                    ? "bg-white dark:bg-[#1f2b3b] text-slate-900 dark:text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                }`}
+              >
+                Curriculum Vitae (CV)
+              </button>
+              <button
+                onClick={() => setActiveDoc("supplemental")}
+                className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-all ${
+                  activeDoc === "supplemental"
+                    ? "bg-white dark:bg-[#1f2b3b] text-slate-900 dark:text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                }`}
+              >
+                Research & Academic Supplement
+              </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5">
             {/* Open in new tab button */}
             <a
-              href={pdfUrl}
+              href={currentPdfUrl}
               target="_blank"
               rel="noopener noreferrer"
               title="Open in new window"
@@ -89,8 +129,8 @@ export const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
 
             {/* Direct Download Button */}
             <a
-              href={pdfUrl}
-              download={title}
+              href={currentPdfUrl}
+              download={currentTitle}
               onClick={handleDownload}
               className="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-[#25364a] hover:bg-slate-800 dark:hover:bg-[#324964] text-white font-semibold text-xs border border-slate-800 dark:border-[#3f5777] shadow-sm flex items-center gap-1.5 transition-colors"
             >
@@ -111,8 +151,9 @@ export const PDFViewerModal: React.FC<PDFViewerModalProps> = ({
         {/* PDF Embedded Frame */}
         <div className="flex-1 w-full h-full bg-slate-100 dark:bg-[#1b222d] relative overflow-hidden">
           <iframe
-            src={`${pdfUrl}#toolbar=1&navpanes=0`}
-            title="CV Document Preview"
+            key={currentPdfUrl}
+            src={`${currentPdfUrl}#toolbar=1&navpanes=0`}
+            title="PDF Document Preview"
             className="w-full h-full border-none"
           />
         </div>

@@ -704,8 +704,12 @@ async function generateCV() {
       text: "Implemented a software simulation of a silicon cochlea to process dense audio signals into sparse spike events, modeling biological auditory processing for neuromorphic inputs.",
     },
     {
-      title: "Chaos-Based Cryptography: ",
-      text: "Designed a cryptographic technique utilizing deterministically chaotic algebraic expressions and Neural Networks to enhance encryption complexity.",
+      title: "Chaotic Neural Network Cryptography: ",
+      text: "Designed a secure cryptographic system utilizing chaotic sequences to determine neural network weights/biases for high-entropy image encryption with a theoretical key space of ~10^157810.",
+    },
+    {
+      title: "DCGAN Image Steganography: ",
+      text: "Engineered a cover-based image steganography framework using Deep Convolutional GANs, Dense Encoders, and Reed-Solomon decoding achieving 0.103 bytes/pixel capacity with 0.9994 SSIM.",
     },
     {
       title: "LQR Inverted Pendulum: ",

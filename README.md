@@ -14,10 +14,10 @@ Built with **Next.js**, **Tailwind CSS**, **Framer Motion**, and **GSAP**, theme
    - Features pneumatic clamp fingers, glowing optical eye (switchable between Portal Blue and Aperture Orange), targeting laser beam, and dynamic joint articulation that tracks selected test chambers.
 
 2. **Chamber Selection Hub**:
-   - **Chamber 01: Embodied AI Hub** — Executive bio, core research pillars, telemetry metrics (211 FPS CMOS accelerator, 3.8ms DVS latency, 3.85 GPA).
+   - **Chamber 01: Embodied AI Hub** — Executive bio, core research pillars, telemetry metrics (211 FPS CMOS accelerator, 3.8ms DVS latency, Pitt ECE).
    - **Chamber 02: Peer Publications** — 5 peer-reviewed papers (Frontiers in Neuroscience, IEEE VLSI, ACM ICONS, IEEE ICARA) with BibTeX copier, tag filtering, and abstracts.
    - **Chamber 03: Lab & Industry Logs** — Deep dive into engineering impacts at **COI Energy** (AI Engineer) and **ENIGMA Lab @ Pitt** (Graduate Research Assistant).
-   - **Chamber 04: System Blueprints** — Silicon Cochlea Simulation, Chaos-Based Cryptography, and LQR Inverted Pendulum controller schematics.
+   - **Chamber 04: System Blueprints** — Silicon Cochlea Software Simulation, Chaos-Based Cryptography, and LQR Inverted Pendulum controller schematics.
    - **Chamber 05: Inventory Matrix** — Steam-styled inventory specification matrix for ML, Robotics, Neuromorphic hardware (Intel Loihi), and toolchains.
    - **Chamber 06: Commendations** — Steam Trophy cabinet highlighting TechCrunch Disrupt 2025 Finalist, Employee of the Year, and national awards.
 
