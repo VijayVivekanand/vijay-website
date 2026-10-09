@@ -155,6 +155,7 @@ export const ApertureTerminal: React.FC<ApertureTerminalProps> = ({
           <div className="space-y-1 text-slate-200 text-xs font-mono">
             <div>Direct Channel: <span className="text-steam-blue">[Protected Form Handler // Click "Send a Transmission"]</span></div>
             <div>LinkedIn: <span className="text-steam-blue">{PROFILE_DATA.linkedin}</span></div>
+            {PROFILE_DATA.github && <div>GitHub: <span className="text-steam-blue">{PROFILE_DATA.github}</span></div>}
           </div>
         );
         break;
@@ -173,7 +174,7 @@ export const ApertureTerminal: React.FC<ApertureTerminalProps> = ({
             <div>✓ EXECUTING SUID ROOT AUTHORIZATION...</div>
             <div>✓ CANDIDATE ACCEPTED: Vijay Shankaran Vivekanand</div>
             <div>✓ High-performance perception, adaptive control, and edge AI unlocked.</div>
-            <div>Direct channel ready: <span className="text-white underline">Click "Send a Transmission" or connect on LinkedIn</span></div>
+            <div>Direct channel ready: <span className="text-white underline">Click "Send a Transmission" or connect on LinkedIn / GitHub</span></div>
           </div>
         );
         break;

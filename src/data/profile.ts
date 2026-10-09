@@ -33,6 +33,8 @@ export interface Project {
   tags: string[];
   link?: string;
   doi?: string;
+  github?: string;
+  linkedin?: string;
   figures?: { title: string; caption: string; image: string }[];
   mathSnippet?: string;
   metrics?: string;
@@ -117,6 +119,7 @@ export const PROFILE_DATA: ProfileData = {
   email: "v.vijayshankaran@gmail.com",
   phone: "+1-412-726-4553",
   linkedin: "https://www.linkedin.com/in/vijay-s-vivekanand",
+  github: "https://github.com/VijayVivekanand",
   formspreeFormId: "xdeaagnq",
   bio: "Focused on the intersection of deep learning and robust control theory for autonomous robotic systems. Developing data-efficient learning algorithms for perception-action loops, specifically leveraging event-based vision and foundation models to enable real-time decision-making in dynamic, unstructured environments.",
   researchInterests: [
@@ -150,7 +153,7 @@ export const PROFILE_DATA: ProfileData = {
       degree: "B.Tech in Electronics and Communications Engineering",
       period: "Jul 2021",
       location: "Bangalore, India",
-      gpa: "3.30 / 4.00",
+      gpa: "8.10 / 10.0",
       specialization: "Signal Processing",
       coursework: [
         "Basic Electronics Engineering",
@@ -172,7 +175,7 @@ export const PROFILE_DATA: ProfileData = {
     { label: "Publications", value: "5", unit: "Articles", sub: "Peer-reviewed (Frontiers, IEEE, ACM)" },
     { label: "Perception Latency", value: "< 3.8 ms", unit: "DVS Stereo", sub: "Frame of events disparity & tracking" },
     { label: "Edge ASIC Power", value: "1.68 mW", unit: "@ 211 FPS", sub: "28-nm CMOS DNF hardware accelerator" },
-    { label: "Research Focus", value: "Neuromorphic", unit: "AI & Robotics", sub: "Event-Based Vision & Adaptive Control" },
+    { label: "Research Focus", value: "Robotics", unit: "& Embodied AI", sub: "Event-Based Vision & Adaptive Control" },
   ],
   publications: [
     {
@@ -365,6 +368,22 @@ export const PROFILE_DATA: ProfileData = {
     },
   ],
   projects: [
+    {
+      id: "pitwall_racing_coach",
+      title: "Pitwall: Trustable AI Racing Coach",
+      category: "Embodied AI & Real-Time Edge Systems",
+      description: "A split-brain embodied AI racing coach proven at 130 mph at Sonoma Raceway. Combines an ultra-low-latency reflexive hot path (Gemma 4 on Pixel 10 TPU, <50ms) with a strategic warm path (Gemini 3.0 on Vertex AI, 2-5s) over 5G using Antigravity store-and-forward telemetry pipelines.",
+      details: [
+        "Architected real-time Data Reasoning engine fusing high-rate Racelogic Mini GPS & OBDLink MX vehicle telemetry into confidence-annotated state frames.",
+        "Engineered split-brain AI pipeline: reflexive Gemma 4 LLM on local Pixel 10 TPU (<50ms) paired with strategic Gemini 3.0 on Vertex AI (2-5s) via Antigravity store-and-forward telemetry.",
+        "Built audio coaching arbiter delivering real-time Ross Bentley pedagogical driving vectors with corner suppression and dynamic conflict resolution directly to driver Pixel Earbuds on-track at Sonoma Raceway.",
+      ],
+      tags: ["Gemma 4", "Pixel 10 TPU", "Gemini 3.0", "Vertex AI", "Antigravity Pipeline", "Sensor Fusion", "Real-Time Telemetry"],
+      metrics: "<50ms Latency · Gemma 4 + Gemini 3.0 · Sonoma Raceway (130 mph)",
+      link: "https://github.com/VijayVivekanand/pitwall",
+      github: "https://github.com/VijayVivekanand/pitwall",
+      linkedin: "https://lnkd.in/p/gYHdm5jF",
+    },
     {
       id: "autonomous_sensorimotor_cpg",
       title: "Autonomous Event-Based Sensorimotor Control & Supervised Gait Learning",

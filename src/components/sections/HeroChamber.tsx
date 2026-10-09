@@ -7,6 +7,8 @@ import {
   Cpu,
   GraduationCap,
   ExternalLink,
+  Linkedin,
+  Github,
   Download,
   Eye,
   Terminal,
@@ -113,6 +115,18 @@ export const HeroChamber: React.FC<HeroChamberProps> = ({
               <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               <span>LinkedIn</span>
             </a>
+
+            {PROFILE_DATA.github && (
+              <a
+                href={PROFILE_DATA.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl bg-[#17212e] hover:bg-[#202d3e] text-slate-300 hover:text-white font-medium text-xs border border-[#27374b] transition-all flex items-center gap-2"
+              >
+                <Github className="w-3.5 h-3.5 text-slate-400" />
+                <span>GitHub</span>
+              </a>
+            )}
 
             <button
               onClick={() => {

@@ -10,11 +10,16 @@ import {
   Zap,
   Activity,
   ExternalLink,
+  Gauge,
+  Github,
+  Linkedin,
 } from "lucide-react";
 
 export const ProjectsSection: React.FC = () => {
   const getProjectIcon = (id: string) => {
     switch (id) {
+      case "pitwall_racing_coach":
+        return Gauge;
       case "autonomous_sensorimotor_cpg":
         return Activity;
       case "dnf_accelerator_vlsi":
@@ -121,17 +126,55 @@ export const ProjectsSection: React.FC = () => {
                   </div>
                 )}
 
-                {proj.link && (
-                  <div className="pt-1 flex justify-end">
-                    <a
-                      href={proj.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-mono text-steam-blue hover:text-white flex items-center gap-1 transition-colors"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      View Paper / DOI
-                    </a>
+                {/* Action Links */}
+                {(proj.github || proj.linkedin || proj.link) && (
+                  <div className="pt-1 flex flex-wrap items-center justify-end gap-2">
+                    {proj.github && (
+                      <a
+                        href={proj.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors px-2 py-0.5 rounded bg-[#18212c] border border-[#263548] hover:border-[#3d5473]"
+                        title="View GitHub Repository"
+                      >
+                        <Github className="w-3 h-3" />
+                        <span>Code</span>
+                      </a>
+                    )}
+                    {proj.linkedin && (
+                      <a
+                        href={proj.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-mono text-sky-400 hover:text-sky-300 flex items-center gap-1.5 transition-colors px-2 py-0.5 rounded bg-[#18212c] border border-[#263548] hover:border-[#3d5473]"
+                        title="View LinkedIn Post"
+                      >
+                        <Linkedin className="w-3 h-3" />
+                        <span>Post</span>
+                      </a>
+                    )}
+                    {proj.link && !proj.github && (
+                      <a
+                        href={proj.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-mono text-steam-blue hover:text-white flex items-center gap-1 transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        {proj.doi ? "View Paper / DOI" : "View Link"}
+                      </a>
+                    )}
+                    {proj.link && proj.github && proj.doi && (
+                      <a
+                        href={proj.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-mono text-steam-blue hover:text-white flex items-center gap-1.5 transition-colors px-2 py-0.5 rounded bg-[#18212c] border border-[#263548] hover:border-[#3d5473]"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span>Paper</span>
+                      </a>
+                    )}
                   </div>
                 )}
               </div>

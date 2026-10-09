@@ -294,7 +294,7 @@ async function generateCV() {
     color: black,
   });
   y1 -= 13;
-  page1.drawText("B.Tech in Electronics and Communications Engineering | CGPA 3.30", {
+  page1.drawText("B.Tech in Electronics and Communications Engineering | CGPA 8.10 / 10.0", {
     x: margin + 65,
     y: y1,
     size: 9,

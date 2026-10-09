@@ -10,7 +10,7 @@ import { ApertureTerminal } from "@/components/sections/ApertureTerminal";
 import { ContactModal } from "@/components/sections/ContactModal";
 import { SteamAchievementToast, Achievement } from "@/components/layout/SteamAchievementToast";
 import { PROFILE_DATA } from "@/data/profile";
-import { Terminal, Mail, Linkedin, FileText, Bot, Sun, Moon } from "lucide-react";
+import { Terminal, Mail, Linkedin, Github, FileText, Bot, Sun, Moon } from "lucide-react";
 import { getAssetPath } from "@/lib/basePath";
 
 export default function Home() {
@@ -182,6 +182,18 @@ export default function Home() {
               <Linkedin className="w-3.5 h-3.5 text-slate-400" />
               <span>LinkedIn</span>
             </a>
+
+            {PROFILE_DATA.github && (
+              <a
+                href={PROFILE_DATA.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors"
+              >
+                <Github className="w-3.5 h-3.5 text-slate-400" />
+                <span>GitHub</span>
+              </a>
+            )}
           </div>
         </div>
       </footer>

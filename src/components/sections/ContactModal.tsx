@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { PROFILE_DATA } from "@/data/profile";
 import {
   Linkedin,
+  Github,
   X,
   Send,
   CheckCircle2,
@@ -317,7 +318,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
           )}
 
           {/* Direct Verified Links */}
-          <div className="pt-3 border-t border-slate-100 dark:border-[#1d2938]">
+          <div className="pt-3 border-t border-slate-100 dark:border-[#1d2938] space-y-2.5">
             <a
               href={PROFILE_DATA.linkedin}
               target="_blank"
@@ -337,6 +338,28 @@ export const ContactModal: React.FC<ContactModalProps> = ({
               </div>
               <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors" />
             </a>
+
+            {PROFILE_DATA.github && (
+              <a
+                href={PROFILE_DATA.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-xl bg-slate-50 dark:bg-[#182330] border border-slate-200 dark:border-[#2b3c50] hover:border-slate-300 dark:hover:border-[#4d6b91] flex items-center justify-between transition-colors shadow-xs group"
+              >
+                <div className="flex items-center gap-3">
+                  <Github className="w-4 h-4 text-slate-800 dark:text-slate-300" />
+                  <div>
+                    <div className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
+                      OPEN SOURCE REPOSITORIES
+                    </div>
+                    <div className="text-xs font-bold text-slate-900 dark:text-white font-mono">
+                      github.com/VijayVivekanand
+                    </div>
+                  </div>
+                </div>
+                <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors" />
+              </a>
+            )}
           </div>
         </div>
       </div>
